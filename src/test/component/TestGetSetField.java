@@ -26,10 +26,10 @@ public class TestGetSetField {
 
 		PointcutForObjects p1 = Weaver.weaveAspectForFieldAccessGetBefore(COMPONENT_CLASS, "numerator",
 				ASPECT_COUNTER_CLASS, "countFieldAcces", int.class, r1, r2);
-		Weaver.weaveAspectForFieldAccessGetBefore(COMPONENT_CLASS, "denominator", ASPECT_COUNTER_CLASS,
+		Pointcut p2 = Weaver.weaveAspectForFieldAccessGetBefore(COMPONENT_CLASS, "denominator", ASPECT_COUNTER_CLASS,
 				"countFieldAcces", int.class, r2, r3);
-		Weaver.weaveAspectForFieldAccessSetAfter(COMPONENT_CLASS, "numerator", ASPECT_COUNTER_CLASS, "countFieldAcces",
-				int.class, r1, r3);
+		Pointcut p3 = Weaver.weaveAspectForFieldAccessSetAfter(COMPONENT_CLASS, "numerator", ASPECT_COUNTER_CLASS,
+				"countFieldAcces", int.class, r1, r3);
 		for (RationalNumber r : new RationalNumber[] { r1, r2, r3 }) {
 			r.numerator = r.numerator + 1;
 			r.denominator = r.denominator + 1;
@@ -45,7 +45,8 @@ public class TestGetSetField {
 		}
 		assertEquals(RationalFieldCounter.getCountFor("numerator"), 6);
 		assertEquals(RationalFieldCounter.getCountFor("denominator"), 7);
-
+		p2.unweave();
+		p3.unweave();
 	}
 
 	private void getAroundMultiply() throws Throwable {
@@ -61,8 +62,10 @@ public class TestGetSetField {
 				int.class);
 		assertEquals(r3.getValue(), 6, 0);
 		assertEquals(r2.getValue(), 4, 0);
-		Weaver.weaveAspectForFieldAccessGetAround(COMPONENT_CLASS, "numerator", by3, "getMultiplied", int.class);
-		Weaver.weaveAspectForFieldAccessGetAround(COMPONENT_CLASS, "denominator", by3, "getMultiplied", int.class);
+		Pointcut p2 = Weaver.weaveAspectForFieldAccessGetAround(COMPONENT_CLASS, "numerator", by3, "getMultiplied",
+				int.class);
+		Pointcut p3 = Weaver.weaveAspectForFieldAccessGetAround(COMPONENT_CLASS, "denominator", by3, "getMultiplied",
+				int.class);
 		assertEquals(r3.getValue(), 18, 0);
 		assertEquals(r2.getValue(), 12, 0);
 		p1Num.unweave();
@@ -71,7 +74,8 @@ public class TestGetSetField {
 		p1Den.unweave();
 		assertEquals(r3.getValue(), 9, 0);
 		assertEquals(r2.getValue(), 6, 0);
-
+		p2.unweave();
+		p3.unweave();
 	}
 
 	private void setRequirement() throws Throwable {
@@ -80,17 +84,19 @@ public class TestGetSetField {
 		RationalNumber r1 = new RationalNumber(1, 4);
 		r1.denominator = 0;
 		assertEquals(r1.denominator, 0);
-		Weaver.weaveAspectForFieldAccessSetAround(COMPONENT_CLASS, "denominator", ASPECT_SAFE_CLASS,
+		Pointcut p1 = Weaver.weaveAspectForFieldAccessSetAround(COMPONENT_CLASS, "denominator", ASPECT_SAFE_CLASS,
 				"safeDenominatorSetter", int.class);
 		try {
 			r1.denominator = 0;
 			fail();
 		} catch (IllegalArgumentException e) {
-			Weaver.weaveAspectForFieldAccessSetAround(COMPONENT_CLASS, "denominator", ASPECT_SAFE_CLASS,
+			Pointcut p2 = Weaver.weaveAspectForFieldAccessSetAround(COMPONENT_CLASS, "denominator", ASPECT_SAFE_CLASS,
 					"exceptionController", int.class);
 			r1.denominator = 0;
 			assertEquals(r1.denominator, 1);
+			p2.unweave();
 		}
+		p1.unweave();
 	}
 
 	@Test

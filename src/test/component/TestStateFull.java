@@ -25,7 +25,7 @@ public class TestStateFull {
 		RationalCounter counterGreaterEqThanSix = new RationalCounter(6);
 		RationalCounter counterGreaterEqThanFour = new RationalCounter(4);
 
-		Weaver.weaveAspectForConstructorBefore(COMPONENT_CLASS, counterGreaterEqThanFive,
+		Pointcut p1 = Weaver.weaveAspectForConstructorBefore(COMPONENT_CLASS, counterGreaterEqThanFive,
 				"countIfGreater", int.class, int.class);
 		Pointcut p6 = Weaver.weaveAspectForConstructorBefore(COMPONENT_CLASS, counterGreaterEqThanSix, "countIfGreater",
 				int.class, int.class);
@@ -44,6 +44,7 @@ public class TestStateFull {
 		assertEquals(counterGreaterEqThanFive.getCounter(), 3);
 		assertEquals(counterGreaterEqThanFour.getCounter(), 3);
 		assertEquals(counterGreaterEqThanSix.getCounter(), 1);
+		p1.unweave();
 	}
 
 	private void testMethod() throws Throwable {

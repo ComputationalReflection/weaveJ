@@ -45,18 +45,21 @@ public class TestAspectMethod {
 	private void testBefore() throws Throwable {
 		RationalNumber r1 = new RationalNumber(1, 1);
 		assertTrue(r1.toMatrix(5, new RationalNumber[] {})[0][0] == 5);
-		Weaver.weaveAspectForMethodBefore(RATIONAL_CLASS, "toMatrix", ASPECT_CLASS, "checkBeforeMatrix",
+		Pointcut p1 = Weaver.weaveAspectForMethodBefore(RATIONAL_CLASS, "toMatrix", ASPECT_CLASS, "checkBeforeMatrix",
 				int[][].class, int.class, RationalNumber[].class);
 		try {
 			r1.toMatrix(0, (RationalNumber[]) null);
 			fail();
 		} catch (NullPointerException e) {
 			// Tejido compuesto
-			Weaver.weaveExceptionHandlerForMethod(RATIONAL_CLASS, "toMatrix", ASPECT_CLASS, "handleExceptionMatrix",
-					"java.lang.RuntimeException", int[][].class, int.class, RationalNumber[].class);
+			Pointcut p2 = Weaver.weaveExceptionHandlerForMethod(RATIONAL_CLASS, "toMatrix", ASPECT_CLASS,
+					"handleExceptionMatrix", "java.lang.RuntimeException", int[][].class, int.class,
+					RationalNumber[].class);
 			assertEquals(r1.toMatrix(0, new RationalNumber[] {})[0][0], 0);
+			p2.unweave();
 
 		}
+		p1.unweave();
 	}
 
 }
