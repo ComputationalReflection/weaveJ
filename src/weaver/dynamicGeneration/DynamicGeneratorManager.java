@@ -13,6 +13,7 @@ import weaver.methods.Method;
 public class DynamicGeneratorManager {
 	protected static BaseDynamicGenerator baseGen = new BaseDynamicGenerator();
 	public static int generatedClassIndex = 0;
+	static String currentClassName;
 
 	public static byte[] generateCode(Method aspectMethod, MethodHandle componentMethod, MethodType generatedMethodType,
 			Wrapper wrapper) throws NoSuchFieldException, Throwable {
@@ -28,10 +29,11 @@ public class DynamicGeneratorManager {
 
 	public static MethodHandle getDynamicGenerateMethod(Method aspectMethod, MethodHandle componentMethod,
 			PointcutImpl p, Wrapper wrapper) throws Throwable {
+		currentClassName = "DynamicClass" + generatedClassIndex;
 		componentMethod = wrapper.prepareMethods(componentMethod, aspectMethod);
 		MethodType generatedMethodType = componentMethod.type();
 		byte[] code = generateCode(aspectMethod, componentMethod, generatedMethodType, wrapper);
-		Class<?> dynamicClass = getDynamicClass(code, "DynamicClass" + generatedClassIndex);
+		Class<?> dynamicClass = getDynamicClass(code, currentClassName);
 		generatedClassIndex++;
 		return wrapper.initAndGetWovenMethod(dynamicClass, generatedMethodType, p);
 	}
@@ -50,7 +52,7 @@ public class DynamicGeneratorManager {
 
 	private static void visitClass(ClassWriter cw, Method aspectMethod, MethodType generatedMethodType, Wrapper wrapper)
 			throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, Throwable {
-		cw.visit(Opcodes.V1_7, Opcodes.ACC_PUBLIC, "DynamicClass" + generatedClassIndex, null, "java/lang/Object",
+		cw.visit(Opcodes.V1_7, Opcodes.ACC_PUBLIC, currentClassName, null, "java/lang/Object",
 				new String[] {});
 		cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "mh", "Ljava/lang/invoke/MethodHandle;", null, null)
 				.visitEnd();
@@ -59,7 +61,7 @@ public class DynamicGeneratorManager {
 	}
 
 	static void visitComponentMethod(MethodVisitor methodVisitor, MethodType generatedMethodType) {
-		methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "DynamicClass" + generatedClassIndex, "mh",
+		methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, currentClassName, "mh",
 				"Ljava/lang/invoke/MethodHandle;");
 		loadLocals(methodVisitor, generatedMethodType);
 		methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/invoke/MethodHandle", "invokeExact",

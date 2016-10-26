@@ -30,23 +30,12 @@ public class CardManager {
 
 	private List<Pointcut> pointcuts = new ArrayList<Pointcut>();
 
-
-
-	/*
-	 * private void createFile(String fileName) { try { BufferedWriter writer =
-	 * new BufferedWriter(new FileWriter(fileName)); writer.newLine();
-	 * writer.close(); this.lastModifiedDate = lastModifedDate(fileName); }
-	 * catch (IOException e) { e.printStackTrace(); }
-	 * 
-	 * }
-	 */
 	private String[][] getAspects(String fileName) {
 		List<String[]> list = new ArrayList<String[]>();
 		try {
 			BufferedReader input = new BufferedReader(new FileReader(fileName));
 			while (input.ready()) {
 				String line = input.readLine();
-				// System.out.println("Line: " + line);
 				if (line != null && !line.equals("")) {
 					String[] words = line.split(" ");
 					if (words.length >= 3)
@@ -192,7 +181,6 @@ public class CardManager {
 		Date date = lastModifedDate(fileName);
 		if (lastModifiedDate == null || date.compareTo(lastModifiedDate) > 0) {
 			this.lastModifiedDate = date;
-			// performs weaving
 			String[][] aspects = getAspects(weavingFile);
 			weave(aspects);
 

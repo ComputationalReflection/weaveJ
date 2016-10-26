@@ -50,8 +50,8 @@ public class DynamicGeneratorForSingleObjects extends DefaultComponentGenerator 
 	@Override
 	public void invokeMethodsBefore(MethodVisitor methodVisitor, Method aspectMethod)
 			throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, Throwable {
-		methodVisitor.visitMethodInsn(Opcodes.GETSTATIC, "DynamicClass" + DynamicGeneratorManager.generatedClassIndex,
-				"set", "Ljava/util/Set<L" + methodType.parameterType(0).getName().replace(".", "/") + ";>;", false);
+		methodVisitor.visitMethodInsn(Opcodes.GETSTATIC, DynamicGeneratorManager.currentClassName, "set",
+				"Ljava/util/Set<L" + methodType.parameterType(0).getName().replace(".", "/") + ";>;", false);
 		methodVisitor.visitVarInsn(Opcodes.ALOAD, 0);
 		methodVisitor.visitMethodInsn(Opcodes.INVOKESPECIAL, "Ljava/util/Set;", "contains",
 				MethodType.methodType(boolean.class, methodType.parameterType(0)).toMethodDescriptorString(), true);

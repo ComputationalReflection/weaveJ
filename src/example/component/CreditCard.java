@@ -27,9 +27,9 @@ public class CreditCard extends Thread {
 				double amount = random.nextInt(50);
 				if (i++ % 2 == 0)
 					System.out.printf("Card ID: " + ID + "Withdraw: %.2f.\n", withdraw(amount));
-				else {
+				else
 					System.out.printf("Card ID: " + ID + "Credit: %.2f. Balance: %.2f.\n", amount, credit(amount));
-				}
+
 			}
 		} catch (Throwable t) {
 		}

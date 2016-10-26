@@ -24,8 +24,7 @@ public class BaseDynamicGenerator implements Wrapper {
 							.toMethodDescriptorString(), null, null);
 			methodVisitor.visitCode();
 			methodVisitor.visitVarInsn(Opcodes.ALOAD, 0);
-			methodVisitor.visitFieldInsn(Opcodes.PUTSTATIC, "DynamicClass"
-					+ DynamicGeneratorManager.generatedClassIndex, "mh",
+			methodVisitor.visitFieldInsn(Opcodes.PUTSTATIC, DynamicGeneratorManager.currentClassName, "mh",
 					"Ljava/lang/invoke/MethodHandle;");
 			methodVisitor.visitInsn(Opcodes.RETURN);
 			methodVisitor.visitMaxs(3, 3);

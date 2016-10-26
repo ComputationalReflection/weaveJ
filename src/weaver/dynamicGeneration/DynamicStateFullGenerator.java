@@ -24,39 +24,24 @@ public class DynamicStateFullGenerator extends DefaultComponentGenerator {
 
 	private byte[] generateCode(Method aspectMethod) {
 		ClassWriter cw = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
-		String classDescriptor = "L"
-				+ aspect.getClass().getName().replace(".", "/") + ";";
-		cw.visit(Opcodes.V1_7, Opcodes.ACC_PUBLIC,
-				"DynamicAspectStateFullClass"
-						+ DynamicGeneratorManager.generatedClassIndex, null,
-				"java/lang/Object", new String[] {});
-		cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC,
-				"mh", "Ljava/lang/invoke/MethodHandle;", null, null).visitEnd();
-		cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC,
-				"instance", classDescriptor, null, null).visitEnd();
+		final String GENERATED_CLASS_NAME = "DynamicAspectStateFullClass" + DynamicGeneratorManager.generatedClassIndex;
+		final String classDescriptor = "L" + aspect.getClass().getName().replace(".", "/") + ";";
+		cw.visit(Opcodes.V1_7, Opcodes.ACC_PUBLIC, GENERATED_CLASS_NAME, null, "java/lang/Object", new String[] {});
+		cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "mh", "Ljava/lang/invoke/MethodHandle;", null, null)
+				.visitEnd();
+		cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "instance", classDescriptor, null, null).visitEnd();
 		MethodVisitor methodVisitor;
 		{
-			methodVisitor = cw.visitMethod(Opcodes.ACC_STATIC
-					+ Opcodes.ACC_PUBLIC, "aspect", aspectMethod.getType()
-					.dropParameterTypes(0, 1).toMethodDescriptorString(), null,
-					null);
+			methodVisitor = cw.visitMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC, "aspect",
+					aspectMethod.getType().dropParameterTypes(0, 1).toMethodDescriptorString(), null, null);
 			methodVisitor.visitCode();
-			methodVisitor.visitFieldInsn(Opcodes.GETSTATIC,
-					"DynamicAspectStateFullClass"
-							+ DynamicGeneratorManager.generatedClassIndex,
-					"mh", "Ljava/lang/invoke/MethodHandle;");
-			methodVisitor.visitFieldInsn(Opcodes.GETSTATIC,
-					"DynamicAspectStateFullClass"
-							+ DynamicGeneratorManager.generatedClassIndex,
-					"instance", classDescriptor);
-			DynamicGeneratorManager.loadLocals(methodVisitor, aspectMethod
-					.getType().dropParameterTypes(0, 1));
-			methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL,
- "java/lang/invoke/MethodHandle", "invokeExact",
-					aspectMethod
-.getType().toMethodDescriptorString(), false);
-			methodVisitor.visitInsn(OpcodesUtil.getReturnOpcode(aspectMethod
-					.getType().returnType()));
+			methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, GENERATED_CLASS_NAME, "mh",
+					"Ljava/lang/invoke/MethodHandle;");
+			methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, GENERATED_CLASS_NAME, "instance", classDescriptor);
+			DynamicGeneratorManager.loadLocals(methodVisitor, aspectMethod.getType().dropParameterTypes(0, 1));
+			methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/invoke/MethodHandle", "invokeExact",
+					aspectMethod.getType().toMethodDescriptorString(), false);
+			methodVisitor.visitInsn(OpcodesUtil.getReturnOpcode(aspectMethod.getType().returnType()));
 			methodVisitor.visitMaxs(3, 3);
 			methodVisitor.visitEnd();
 		}
@@ -65,18 +50,14 @@ public class DynamicStateFullGenerator extends DefaultComponentGenerator {
 	}
 
 	@Override
-	public MethodHandle prepareMethods(MethodHandle component,
-			Method aspectMethod) throws NoSuchFieldException,
-			IllegalAccessException, NoSuchMethodException, Throwable {
-		Class<?> aspectClass = DynamicGeneratorManager.getDynamicClass(
-				generateCode(aspectMethod), "DynamicAspectStateFullClass"
-						+ DynamicGeneratorManager.generatedClassIndex);
-		MethodHandles.lookup()
-				.findStaticSetter(aspectClass, "mh", MethodHandle.class)
+	public MethodHandle prepareMethods(MethodHandle component, Method aspectMethod)
+			throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, Throwable {
+		final String GENERATED_CLASS_NAME = "DynamicAspectStateFullClass" + DynamicGeneratorManager.generatedClassIndex;
+		Class<?> aspectClass = DynamicGeneratorManager.getDynamicClass(generateCode(aspectMethod),
+				GENERATED_CLASS_NAME);
+		MethodHandles.lookup().findStaticSetter(aspectClass, "mh", MethodHandle.class)
 				.invoke(aspectMethod.getMethodHandle());
-		MethodHandles.lookup()
-				.findStaticSetter(aspectClass, "instance", aspect.getClass())
-				.invoke(aspect);
+		MethodHandles.lookup().findStaticSetter(aspectClass, "instance", aspect.getClass()).invoke(aspect);
 		aspectMethod.setType(aspectMethod.getType().dropParameterTypes(0, 1));
 		aspectMethod.setKlass(aspectClass);
 		aspectMethod.setName("aspect");

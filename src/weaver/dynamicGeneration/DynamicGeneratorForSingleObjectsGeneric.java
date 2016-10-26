@@ -54,7 +54,7 @@ public class DynamicGeneratorForSingleObjectsGeneric extends DefaultComponentGen
 		methodVisitor.visitInsn(OpcodesUtil.getReturnOpcode(methodType.returnType()));
 		methodVisitor.visitLabel(falseLabel);
 
-		methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "DynamicClass" + DynamicGeneratorManager.generatedClassIndex,
+		methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, DynamicGeneratorManager.currentClassName,
 				generator instanceof DynamicGeneratorAround ? "mhComponent" : "mh", "Ljava/lang/invoke/MethodHandle;");
 		DynamicGeneratorManager.loadLocals(methodVisitor, component.type());
 		methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/invoke/MethodHandle", "invoke",
@@ -64,7 +64,7 @@ public class DynamicGeneratorForSingleObjectsGeneric extends DefaultComponentGen
 	@Override
 	public void invokeMethodsBefore(MethodVisitor methodVisitor, Method aspectMethod)
 			throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, Throwable {
-		methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "DynamicClass" + DynamicGeneratorManager.generatedClassIndex,
+		methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, DynamicGeneratorManager.currentClassName,
 				"set", "Lutil/GenericSet;");
 		methodVisitor.visitVarInsn(Opcodes.ALOAD, 0);
 		methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "util/GenericSet", "contains",

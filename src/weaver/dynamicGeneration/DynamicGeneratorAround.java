@@ -25,19 +25,15 @@ public class DynamicGeneratorAround extends DefaultComponentGenerator {
 	}
 
 	@Override
-	public MethodHandle initAndGetWovenMethod(Class<?> dynamicClass,
-			MethodType generatedMethodType, PointcutImpl pointcut) throws Throwable {
-		MethodHandles.lookup()
-				.findStaticSetter(dynamicClass, "decorator", Decorator.class)
-				.invoke(decorator);
-		return super
-				.initAndGetWovenMethod(dynamicClass, generatedMethodType, pointcut);
+	public MethodHandle initAndGetWovenMethod(Class<?> dynamicClass, MethodType generatedMethodType,
+			PointcutImpl pointcut) throws Throwable {
+		MethodHandles.lookup().findStaticSetter(dynamicClass, "decorator", Decorator.class).invoke(decorator);
+		return super.initAndGetWovenMethod(dynamicClass, generatedMethodType, pointcut);
 	}
 
 	@Override
-	public MethodHandle prepareMethods(MethodHandle component,
-			Method aspectMethod) throws NoSuchFieldException,
-			IllegalAccessException, NoSuchMethodException, Throwable {
+	public MethodHandle prepareMethods(MethodHandle component, Method aspectMethod)
+			throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, Throwable {
 		MethodHandle ret = super.prepareMethods(component, aspectMethod);
 		decorator = new StaticMethodDecorator(aspectMethod);
 		return ret;
@@ -47,29 +43,20 @@ public class DynamicGeneratorAround extends DefaultComponentGenerator {
 	public void visitMethodHandleSetter(ClassWriter cw) {
 		MethodVisitor methodVisitor;
 		{
-			methodVisitor = cw.visitMethod(Opcodes.ACC_STATIC
-					+ Opcodes.ACC_PUBLIC, "iniciar",
-					MethodType.methodType(void.class, MethodHandle.class)
-							.toMethodDescriptorString(), null, null);
+			methodVisitor = cw.visitMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC, "iniciar",
+					MethodType.methodType(void.class, MethodHandle.class).toMethodDescriptorString(), null, null);
 			methodVisitor.visitCode();
-			methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, "DynamicClass"
-					+ DynamicGeneratorManager.generatedClassIndex, "decorator",
+			methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, DynamicGeneratorManager.currentClassName, "decorator",
 					"Lweaver/Decorator;");
 			methodVisitor.visitVarInsn(Opcodes.ALOAD, 0);
-			methodVisitor.visitMethodInsn(
-					Opcodes.INVOKEINTERFACE,
-					"weaver/Decorator",
-					"decorate",
-					MethodType.methodType(MethodHandle.class,
- MethodHandle.class).toMethodDescriptorString(), true);
-			methodVisitor.visitFieldInsn(Opcodes.PUTSTATIC, "DynamicClass"
-					+ DynamicGeneratorManager.generatedClassIndex, "mh",
+			methodVisitor.visitMethodInsn(Opcodes.INVOKEINTERFACE, "weaver/Decorator", "decorate",
+					MethodType.methodType(MethodHandle.class, MethodHandle.class).toMethodDescriptorString(), true);
+			methodVisitor.visitFieldInsn(Opcodes.PUTSTATIC, DynamicGeneratorManager.currentClassName, "mh",
 					"Ljava/lang/invoke/MethodHandle;");
 			methodVisitor.visitInsn(Opcodes.RETURN);
 			methodVisitor.visitMaxs(3, 3);
 			methodVisitor.visitEnd();
 		}
-		cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "decorator",
-				"Lweaver/Decorator;", null, null);
+		cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "decorator", "Lweaver/Decorator;", null, null);
 	}
 }
