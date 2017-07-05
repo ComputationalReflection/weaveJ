@@ -1,3 +1,0 @@
-BEFORE - example.aspect.TraceDecorator traceBefore example.component.CreditCard credit double double
-
-	
