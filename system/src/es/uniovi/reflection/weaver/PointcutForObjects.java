@@ -2,8 +2,8 @@ package es.uniovi.reflection.weaver;
 
 import java.lang.invoke.MethodHandle;
 
+import es.uniovi.reflection.util.GenericSet;
 import es.uniovi.reflection.weaver.methods.Method;
-import es.uniovi.reflection.weaver.util.GenericSet;
 
 public class PointcutForObjects extends PointcutImpl{
 

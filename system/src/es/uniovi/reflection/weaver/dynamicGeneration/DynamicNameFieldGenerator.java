@@ -31,7 +31,7 @@ public class DynamicNameFieldGenerator extends DefaultComponentGenerator {
 		final String GENERATED_CLASS_NAME = "DynamicAspectClass" + DynamicGeneratorManager.generatedClassIndex;
 
 		cw.visit(Opcodes.V1_7, Opcodes.ACC_PUBLIC, GENERATED_CLASS_NAME, null, "java/lang/Object", new String[] {});
-		cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "mh", "Ljava/lang/invoke/MethodHandle;", null, null)
+		cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "mh", DynamicGeneratorForSingleObjectsGeneric.handleDesc, null, null)
 				.visitEnd();
 		MethodVisitor methodVisitor;
 		{
@@ -39,7 +39,7 @@ public class DynamicNameFieldGenerator extends DefaultComponentGenerator {
 					aspectMethod.getType().dropParameterTypes(0, 1).toMethodDescriptorString(), null, null);
 			methodVisitor.visitCode();
 			methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, GENERATED_CLASS_NAME, "mh",
-					"Ljava/lang/invoke/MethodHandle;");
+					DynamicGeneratorForSingleObjectsGeneric.handleDesc);
 
 			methodVisitor.visitLdcInsn(nameField);
 			DynamicGeneratorManager.loadLocals(methodVisitor, aspectMethod.getType().dropParameterTypes(0, 1));

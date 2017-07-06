@@ -17,8 +17,7 @@ public class ASMConstructorVisitor extends ASMMethodVisitor {
 			isLastRemovedNew = false;
 
 			if (DEBUG)
-				System.out.println(
-						"NEW PERMITIDO por ser el primero dentro de un constructor (super). " + arg0.getClassName());
+				System.out.println("NEW allowed (first in a constructor--->super call). " + arg0.getClassName());
 			super.superAnew(arg0);
 
 		} else {
@@ -31,21 +30,24 @@ public class ASMConstructorVisitor extends ASMMethodVisitor {
 	@Override
 	public void invokespecial(String owner, String name, String desc, boolean itf) {
 		if (DEBUG)
-			System.out.println("Visitando INVOKEESPECIAL con " + name + " de " + owner + " con " + firstInvokeespecial);
+			System.out.println("Visiting INVOKESPECIAL " + name + " of " + owner + " with " + firstInvokeespecial);
 		if (firstInvokeespecial && name.contains("<init>")) {
 			super.superInvokespecial(owner, name, desc, itf);
 			firstInvokeespecial = false;
 
 			if (DEBUG)
-				System.out.println("INVOKE_ESPECIAL CONSTRUCTOR PERMITIDO POR SER EL PRIMERO en un constructor" + owner
+				System.out.println("INVOKESPECIAL allowed (first in a cosntructor--->super call)" + owner
 						+ " " + name + " " + desc);
 		} else {
 			super.invokespecial(owner, name, desc, itf);
 			if (DEBUG)
 				System.out.println(
-						"INVOKE_ESPECIAL TRANSFORMADO A DYNAMIC por no ser el primero en un cosntructor o no ser llamada a constructor"
+						"INVOKESPECIAL transformed (not super call)"
 								+ owner + " " + name + " " + desc);
 		}
 	}
 
+	protected void normalVisitFieldInsn(int opcode, String owner, String name, String desc) {
+		super.superVisitField(opcode, owner, name, desc);
+	}
 }

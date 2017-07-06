@@ -8,7 +8,6 @@ import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
-
 public class ASMClassVisitorJava7 extends ClassVisitor implements Opcodes {
 
 	private static boolean DEBUG = false;
@@ -23,7 +22,7 @@ public class ASMClassVisitorJava7 extends ClassVisitor implements Opcodes {
 		className = name;
 		if (DEBUG)
 			System.out.println(
-					"Superclass de " + name + ":" + superName + "(" + Modifier.isPublic(access) + "-" + access + ")");
+					"Superclass of " + name + ":" + superName + "(" + Modifier.isPublic(access) + "-" + access + ")");
 		super.visit(version, access, name, signature, superName, interfaces);
 
 	}
@@ -31,7 +30,7 @@ public class ASMClassVisitorJava7 extends ClassVisitor implements Opcodes {
 	@Override
 	public FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
 		if (DEBUG)
-			System.out.println("Atributo " + name + "(" + desc + ")" + signature);
+			System.out.println("Attribute " + name + "(" + desc + ")" + signature);
 
 		if (!Modifier.isPublic(access)) {
 			int newAccess = 0;
@@ -51,7 +50,8 @@ public class ASMClassVisitorJava7 extends ClassVisitor implements Opcodes {
 		MethodVisitor visitor;
 
 		if (className.contains("$") && name.contentEquals("<init>"))
-			visitor = new ASMInnerConstructorVisitorJava7(api, super.visitMethod(access, name, desc, signature, exceptions));
+			visitor = new ASMInnerConstructorVisitorJava7(api,
+					super.visitMethod(access, name, desc, signature, exceptions));
 		else
 			visitor = new ASMMethodVisitorJava7(api, super.visitMethod(access, name, desc, signature, exceptions));
 		return visitor;

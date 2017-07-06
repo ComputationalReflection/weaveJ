@@ -1,5 +1,10 @@
 package es.uniovi.reflection.weaver.javaAgent;
 
+import org.objectweb.asm.ClassVisitor;
+import org.objectweb.asm.ClassWriter;
+
+import jdk.internal.org.objectweb.asm.Opcodes;
+
 public class PackageGroupTransformer extends InstrumentorTransformer {
 	public static PackageGroupTransformer CLASS_TRANSFORMER;
 	private String[] packageNames;
@@ -18,5 +23,10 @@ public class PackageGroupTransformer extends InstrumentorTransformer {
 				return true;
 		}
 		return false;
+	}
+
+	@Override
+	protected ClassVisitor getClassVisitor(ClassWriter writer) {
+		return new ASMClassVisitor(Opcodes.ASM5, writer);
 	}
 }

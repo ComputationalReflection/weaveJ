@@ -13,6 +13,8 @@ public class ASMMethodVisitor extends InstructionAdapter implements Opcodes {
 
 	static boolean DEBUG = false;
 
+	private static final String bootstrapClassDesc = "es/uniovi/reflection/weaver/DefaultBootstrap";
+
 	protected boolean isLastRemovedNew;
 
 	public ASMMethodVisitor(int arg0, MethodVisitor arg1) {
@@ -21,10 +23,9 @@ public class ASMMethodVisitor extends InstructionAdapter implements Opcodes {
 
 	@Override
 	public void anew(org.objectweb.asm.Type arg0) {
-		if (PackageGroupTransformer.CLASS_TRANSFORMER.transformClass(arg0.getClassName().replace(".", "/"))
-		/* && !arg0.getClassName().contains("$") */) {
+		if (PackageGroupTransformer.CLASS_TRANSFORMER.transformClass(arg0.getClassName().replace(".", "/"))) {
 			if (DEBUG)
-				System.out.println("NEW ELIMINADO " + arg0.getClassName());
+				System.out.println("NEW transformed " + arg0.getClassName());
 			isLastRemovedNew = true;
 
 		} else {
@@ -32,7 +33,7 @@ public class ASMMethodVisitor extends InstructionAdapter implements Opcodes {
 			isLastRemovedNew = false;
 
 			if (DEBUG)
-				System.out.println("NEW con $ PERMITIDO " + arg0.getClassName());
+				System.out.println("NEW allowed (class not instrumented) " + arg0.getClassName());
 			super.anew(arg0);
 
 		}
@@ -43,10 +44,10 @@ public class ASMMethodVisitor extends InstructionAdapter implements Opcodes {
 	public void dup() {
 		if (isLastRemovedNew) {
 			if (DEBUG)
-				System.out.println("DUP eliminado por ir después de NEW.");
+				System.out.println("DUP after NEW transformed.");
 		} else {
 			if (DEBUG)
-				System.out.println("DUP NO ELIMINADO.");
+				System.out.println("DUP allowed.");
 			super.dup();
 		}
 
@@ -54,21 +55,19 @@ public class ASMMethodVisitor extends InstructionAdapter implements Opcodes {
 
 	@Override
 	public void invokespecial(String owner, String name, String desc, boolean itf) {
-		if (name.contentEquals("<init>") && PackageGroupTransformer.CLASS_TRANSFORMER.transformClass(owner)
-		/* && !owner.contains("$") */) {
+		if (name.contentEquals("<init>") && PackageGroupTransformer.CLASS_TRANSFORMER.transformClass(owner)) {
 			if (DEBUG)
-				System.out.println("Modificando llamada especial :(" + owner + "):" + name + "(" + desc + ")");
+				System.out.println("Transforming INVOKE_SPECIAL :(" + owner + "):" + name + "(" + desc + ")");
 
 			MethodType mt = MethodType.methodType(CallSite.class, MethodHandles.Lookup.class, String.class,
 					MethodType.class);
-			Handle h = new Handle(H_INVOKESTATIC, "weaver/DefaultBootstrap", "staticMethod",
-					mt.toMethodDescriptorString());
+			Handle h = new Handle(H_INVOKESTATIC, bootstrapClassDesc, "staticMethod", mt.toMethodDescriptorString());
 
 			super.visitInvokeDynamicInsn("init", desc.replace(")V", ")L" + owner + ";"), h);
 
 		} else {
 			if (DEBUG)
-				System.out.println("Llamada especial a método o constructor privado o de superclase sin modificar:("
+				System.out.println("INVOKESPECIAL allowed (super init call, or private method):("
 						+ owner + "):" + name);
 
 			super.invokespecial(owner, name, desc, itf);
@@ -78,12 +77,12 @@ public class ASMMethodVisitor extends InstructionAdapter implements Opcodes {
 	@Override
 	public void invokevirtual(String owner, String name, String desc, boolean itf) {
 		if (DEBUG)
-			System.out.println("Modificando llamada de instancia :" + name + " de la clase " + owner + "(" + desc + ")-"
+			System.out.println("Transforming INVOKEVIRTUAL :" + name + " of class " + owner + "(" + desc + ")-"
 					+ desc.replace("(", "(L" + owner + ";"));
 
 		MethodType mt = MethodType.methodType(CallSite.class, MethodHandles.Lookup.class, String.class,
 				MethodType.class);
-		Handle h = new Handle(H_INVOKESTATIC, "weaver/DefaultBootstrap", "method", mt.toMethodDescriptorString());
+		Handle h = new Handle(H_INVOKESTATIC, bootstrapClassDesc, "method", mt.toMethodDescriptorString());
 
 		super.visitInvokeDynamicInsn(name, desc.replace("(", "(L" + owner + ";"), h);
 
@@ -96,6 +95,7 @@ public class ASMMethodVisitor extends InstructionAdapter implements Opcodes {
 	protected void superInvokespecial(String owner, String name, String desc, boolean itf) {
 		super.invokespecial(owner, name, desc, itf);
 	}
+
 	protected void superDup() {
 		super.dup();
 	}
@@ -107,7 +107,7 @@ public class ASMMethodVisitor extends InstructionAdapter implements Opcodes {
 	@Override
 	public void visitFieldInsn(int opcode, String owner, String name, String desc) {
 		if (DEBUG)
-			System.out.println("Visitando instrucción de campo " + owner + " " + name + " " + opcode + " " + desc);
+			System.out.println("Visiting field " + owner + " " + name + " " + opcode + " " + desc);
 
 		if (desc.contains("[") && opcode == Opcodes.GETFIELD)
 			superVisitField(opcode, owner, name, desc);
@@ -122,10 +122,11 @@ public class ASMMethodVisitor extends InstructionAdapter implements Opcodes {
 
 	private void visitGet(String owner, String name, String desc) {
 		if (DEBUG)
-			System.out.println("Modificando GET al campo :" + name + " de la clase " + owner + "(" + desc + ")");
+			System.out.println("Transforming GET :" + name + " of class " + owner + "(" + desc + ")");
 		MethodType mt = MethodType.methodType(CallSite.class, MethodHandles.Lookup.class, String.class,
 				MethodType.class);
-		Handle h = new Handle(H_INVOKESTATIC, "weaver/DefaultBootstrap", "get", mt.toMethodDescriptorString());
+		Handle h = new Handle(H_INVOKESTATIC, bootstrapClassDesc, "get",
+				mt.toMethodDescriptorString());
 		super.visitInvokeDynamicInsn(name, "(L" + owner + ";)" + desc, h);
 
 	}
@@ -149,7 +150,8 @@ public class ASMMethodVisitor extends InstructionAdapter implements Opcodes {
 			System.out.println("Modificando SET al campo :" + name + " de la clase " + owner + "(" + desc + ")");
 		MethodType mt = MethodType.methodType(CallSite.class, MethodHandles.Lookup.class, String.class,
 				MethodType.class);
-		Handle h = new Handle(H_INVOKESTATIC, "weaver/DefaultBootstrap", "set", mt.toMethodDescriptorString());
+		Handle h = new Handle(H_INVOKESTATIC, bootstrapClassDesc, "set",
+				mt.toMethodDescriptorString());
 		super.visitInvokeDynamicInsn(name, "(L" + owner + ";" + desc + ")V", h);
 
 	}

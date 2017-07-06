@@ -45,14 +45,15 @@ public class DynamicGeneratorAround extends DefaultComponentGenerator {
 	@Override
 	public void visitMethodHandleSetter(ClassWriter cw) {
 		MethodVisitor methodVisitor;
+		final String decoratorClassDesc = "Les/uniovi/reflection/weaver/Decorator;";
 		{
 			methodVisitor = cw.visitMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC, "iniciar",
 					MethodType.methodType(void.class, MethodHandle.class).toMethodDescriptorString(), null, null);
 			methodVisitor.visitCode();
 			methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, DynamicGeneratorManager.currentClassName, "decorator",
-					"Lweaver/Decorator;");
+					decoratorClassDesc);
 			methodVisitor.visitVarInsn(Opcodes.ALOAD, 0);
-			methodVisitor.visitMethodInsn(Opcodes.INVOKEINTERFACE, "weaver/Decorator", "decorate",
+			methodVisitor.visitMethodInsn(Opcodes.INVOKEINTERFACE, "es/uniovi/reflection/weaver/Decorator", "decorate",
 					MethodType.methodType(MethodHandle.class, MethodHandle.class).toMethodDescriptorString(), true);
 			methodVisitor.visitFieldInsn(Opcodes.PUTSTATIC, DynamicGeneratorManager.currentClassName, "mh",
 					"Ljava/lang/invoke/MethodHandle;");
@@ -60,6 +61,6 @@ public class DynamicGeneratorAround extends DefaultComponentGenerator {
 			methodVisitor.visitMaxs(3, 3);
 			methodVisitor.visitEnd();
 		}
-		cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "decorator", "Lweaver/Decorator;", null, null);
+		cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "decorator", decoratorClassDesc, null, null);
 	}
 }

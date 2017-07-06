@@ -12,16 +12,14 @@ import java.security.ProtectionDomain;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.ClassVisitor;
 import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.util.TraceClassVisitor;
 
-import es.uniovi.reflection.weaver.java7.ASMClassVisitorJava7;
 
-public class InstrumentorTransformer implements ClassFileTransformer {
+public abstract class InstrumentorTransformer implements ClassFileTransformer {
 	private static final boolean DEBUG = false;
 
-	static String byteCodeSpy(byte[] bytes) {
+	public static String byteCodeSpy(byte[] bytes) {
 		ClassNode classNode = new ClassNode();
 		ClassReader reader = null;
 		reader = new ClassReader(bytes);
@@ -43,14 +41,8 @@ public class InstrumentorTransformer implements ClassFileTransformer {
 				ClassReader reader = new ClassReader(classfileBuffer);
 
 				ClassWriter writer = new ClassWriter(ClassWriter.COMPUTE_FRAMES);
-				String propName = "java.version";
 				ClassVisitor visitor;
-				if (System.getProperty(propName).substring(0, 2).contentEquals("1.8"))
-
-					visitor = new ASMClassVisitor(Opcodes.ASM5, writer);
-				else
-
-					visitor = new ASMClassVisitorJava7(Opcodes.ASM5, writer);
+				visitor = getClassVisitor(writer);
 
 				try {
 					reader.accept(visitor, ClassReader.EXPAND_FRAMES);
@@ -68,7 +60,7 @@ public class InstrumentorTransformer implements ClassFileTransformer {
 							new FileWriter(new File(className.replace("/", "") + "beforeTransform.txt")));
 					bw.write(byteCodeSpy(classfileBuffer));
 					bw.close();
-					System.out.println("Clase " + className + " instrumentada.");
+					System.out.println("Class " + className + " instrumented.");
 				}
 
 				return modifiedBytes;
@@ -84,7 +76,8 @@ public class InstrumentorTransformer implements ClassFileTransformer {
 		return classfileBuffer;
 	}
 
-	protected boolean transformClass(String className) {
-		return true;
-	}
+	protected abstract boolean transformClass(String className);
+
+	protected abstract ClassVisitor getClassVisitor(ClassWriter writer);
+
 }

@@ -56,17 +56,15 @@ public class DynamicGeneratorManager {
 
 	private static void visitClass(ClassWriter cw, Method aspectMethod, MethodType generatedMethodType, Wrapper wrapper)
 			throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, Throwable {
-		cw.visit(Opcodes.V1_7, Opcodes.ACC_PUBLIC, currentClassName, null, "java/lang/Object",
-				new String[] {});
-		cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "mh", "Ljava/lang/invoke/MethodHandle;", null, null)
-				.visitEnd();
+		cw.visit(Opcodes.V1_7, Opcodes.ACC_PUBLIC, currentClassName, null, "java/lang/Object", new String[] {});
+		cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "mh", DynamicGeneratorForSingleObjectsGeneric.handleDesc,
+				null, null).visitEnd();
 		wrapper.visitMethodHandleSetter(cw);
 		visitWovenMethod(cw, generatedMethodType, aspectMethod, wrapper);
 	}
 
 	static void visitComponentMethod(MethodVisitor methodVisitor, MethodType generatedMethodType) {
-		methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, currentClassName, "mh",
-				"Ljava/lang/invoke/MethodHandle;");
+		methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, currentClassName, "mh", DynamicGeneratorForSingleObjectsGeneric.handleDesc);
 		loadLocals(methodVisitor, generatedMethodType);
 		methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/invoke/MethodHandle", "invokeExact",
 				generatedMethodType.toMethodDescriptorString(), false);

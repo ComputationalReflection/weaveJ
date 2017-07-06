@@ -17,6 +17,7 @@ public class ASMClassVisitor extends ClassVisitor implements Opcodes {
 	private static boolean DEBUG = false;
 	private String className;
 	private Set<String> constructorDescs = new HashSet<String>();
+	private Set<String> finalFields = new HashSet<String>();
 	private ClassWriter writer;
 
 	public ASMClassVisitor(int arg0, ClassWriter arg1) {
@@ -27,7 +28,6 @@ public class ASMClassVisitor extends ClassVisitor implements Opcodes {
 	@Override
 	public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
 		className = name;
-
 		if (!Modifier.isPublic(access)) {
 			int newAccess = 0;
 			if (Modifier.isFinal(access))
@@ -40,7 +40,7 @@ public class ASMClassVisitor extends ClassVisitor implements Opcodes {
 		}
 		if (DEBUG)
 			System.out.println(
-					"Superclass de " + name + ":" + superName + "(" + Modifier.isPublic(access) + "-" + access + ")");
+					"Superclass of " + name + ":" + superName + "(" + Modifier.isPublic(access) + "-" + access + ")");
 		super.visit(version, access, name, signature, superName, interfaces);
 
 	}
@@ -71,12 +71,15 @@ public class ASMClassVisitor extends ClassVisitor implements Opcodes {
 	@Override
 	public FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
 		if (DEBUG)
-			System.out.println("Atributo " + name + "(" + desc + ")" + signature);
+			System.out.println("Attribute " + name + "(" + desc + ")" + signature);
 
 		if (!Modifier.isPublic(access)) {
 			int newAccess = 0;
-			if (Modifier.isFinal(access))
+			if (Modifier.isFinal(access)) {
 				newAccess += Opcodes.ACC_FINAL;
+				finalFields.add(name);
+			}
+			// Formatting can't be applied to final fields
 			if (Modifier.isStatic(access))
 				newAccess += Opcodes.ACC_STATIC;
 			access = newAccess + ACC_PUBLIC;
@@ -86,6 +89,8 @@ public class ASMClassVisitor extends ClassVisitor implements Opcodes {
 
 	@Override
 	public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
+		if (DEBUG)
+			System.out.println("Method " + name + "(" + desc + ")" + signature + "-->" + finalFields.size());
 
 		MethodVisitor visitor;
 		// The constructor in the Object class is the only one visited with a
@@ -95,6 +100,9 @@ public class ASMClassVisitor extends ClassVisitor implements Opcodes {
 			if (className.contains("$"))
 				visitor = new ASMInnerConstructorVisitor(api,
 						super.visitMethod(access, name, desc, signature, exceptions));
+			else if (finalFields.size() > 0)
+				visitor = new ASMConstructorWithFinalFields(api,
+						super.visitMethod(access, name, desc, signature, exceptions), finalFields);
 			else
 				visitor = new ASMConstructorVisitor(api, super.visitMethod(access, name, desc, signature, exceptions));
 
