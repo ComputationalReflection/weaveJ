@@ -1,0 +1,2 @@
+
+C:\Users\Oscar\Desktop\weaveJ\Benchmarks\Real Applications\JAsCo\FTP_Encryption>..\..\..\..\"Memory utils"\MemoryMeasurer.exe memory.bat 

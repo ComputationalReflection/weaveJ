@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<aop>
+	<prepare expr="call( !static * main.MainWindow->*() )"/>
+	
+	<prepare expr="field( *  main.MainWindow-> *)"/>
+	
+	
+	<prepare expr="all(shapesPackage.*)"/>
+	<prepare expr="all(utilsClass.*)"/>
+	<prepare expr="all(paintCanvas.PanelPrincipal)"/>
+	
+	<prepare expr="all(controller.*)"/>
+	<prepare expr="all(demos.*)"/>
+	<prepare expr="all(loggerPackage.*)"/>
+	
+	<prepare expr="all(main.DialogSelectShape)"/>
+	<prepare expr="all(main.DialogSelectDemo)"/>
+	
+	<prepare expr="all(loggerPackage.*)"/>
+	<prepare expr="all(factoryPackage.*)"/>
+	
+</aop>
+

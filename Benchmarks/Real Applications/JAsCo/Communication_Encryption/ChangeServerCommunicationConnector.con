@@ -1,0 +1,12 @@
+import encryption.jasco.*;
+
+
+static connector ChangeServerCommunicationConnector {
+
+	
+	
+	
+	
+	ChangeServerCommunicationAspect.ServerAround hook1 = new ChangeServerCommunicationAspect.ServerAround(* encryption.chat.Program.getSrReceiver(*));
+	//ChangeClientCommunicationAspect.ClientAround hook2 = new ChangeClientCommunicationAspect.ClientAround(* encryption.chat.Program.getSwSender(*));
+}

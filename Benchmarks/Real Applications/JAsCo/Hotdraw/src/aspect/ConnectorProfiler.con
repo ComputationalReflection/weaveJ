@@ -1,0 +1,13 @@
+static connector ConnectorProfiler {	
+	aspect.AspectProfiler.OpenProfiler o = new aspect.AspectProfiler.OpenProfiler(void main.MainWindow.actProfiler());
+	o.default();
+	
+	aspect.AspectProfiler.CloseProfiler c = new aspect.AspectProfiler.CloseProfiler(void main.MainWindow.disactivateProfiler());
+	c.default();     
+	
+	aspect.AspectProfiler.writeProfiler l = new aspect.AspectProfiler.writeProfiler({void shapesPackage.Shapes.insert(shapesPackage.Shape,String),void shapesPackage.Shapes.delete(shapesPackage.Shape,String),void shapesPackage.Shape.moveShape(shapesPackage.Shape,String,shapesPackage.PointA),void shapesPackage.Shape.scaleShape(shapesPackage.Shape,String,java.util.Map) });
+	l.default();	
+		
+	aspect.AspectProfiler.profilerDemo d = new aspect.AspectProfiler.profilerDemo({void demos.Demo1.run(),void demos.Demo2.run(),void demos.Demo3.run(),void demos.DemoTimer.run(),void demos.Demo4.run()});
+	d.default();   	
+}

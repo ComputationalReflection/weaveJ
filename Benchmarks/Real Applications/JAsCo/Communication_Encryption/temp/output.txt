@@ -1,0 +1,3 @@
+
+C:\Users\Oscar\Desktop\Aplicaciones reales\CommunicationEncryptionJascoMEM>C:\Users\Oscar\Desktop\HiPerfMemory_nuevo.exe ejecutarMEM.bat 
+4968448

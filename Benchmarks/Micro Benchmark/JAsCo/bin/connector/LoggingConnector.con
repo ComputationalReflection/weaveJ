@@ -1,0 +1,4 @@
+static connector LoggingConnector {
+	
+	aspects.LoggingAspect.LoggingHook hook1 = new aspects.LoggingAspect.LoggingHook(* *.addInt(*));
+}

@@ -1,0 +1,1 @@
+"C:/Program Files/Java/jre7/bin"\java.exe -cp "bin;lib\*" -Djboss.aop.path=jboss-aop.xml -javaagent:lib\jboss-aop.jar -XX:-UseSplitVerifier main.MainWindow STEADY

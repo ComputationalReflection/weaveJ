@@ -1,0 +1,6 @@
+
+C:\Users\Oscar\Desktop\Oskar\weaveJ\MicroBenchmarkJava>C:\Users\Oscar\Desktop\HiPerfMemory_nuevo.exe ejecutar7.bat 
+4321280
+
+C:\Users\Oscar\Desktop\Oskar\weaveJ\MicroBenchmarkJava>pause
+Presione una tecla para continuar . . . 

@@ -1,0 +1,14 @@
+static connector ConnectorDrawConsole {	
+	aspect.DrawConsole.InsertConsole i = new aspect.DrawConsole.InsertConsole(void shapesPackage.Shapes.insert(shapesPackage.Shape,String));
+	i.default();
+
+
+	aspect.DrawConsole.DeleteConsole d = new aspect.DrawConsole.DeleteConsole(void shapesPackage.Shapes.delete(shapesPackage.Shape,String));
+	d.default();
+	
+	aspect.DrawConsole.MoveConsole m = new aspect.DrawConsole.MoveConsole(void shapesPackage.Shape.moveShape(shapesPackage.Shape,String,shapesPackage.PointA));
+	m.default();  
+	
+	aspect.DrawConsole.ScaleConsole s = new aspect.DrawConsole.ScaleConsole(void shapesPackage.Shape.scaleShape(shapesPackage.Shape,String,java.util.Map));
+	s.default();  
+}

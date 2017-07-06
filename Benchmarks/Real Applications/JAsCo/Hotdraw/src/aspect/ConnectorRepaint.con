@@ -1,0 +1,4 @@
+static connector ConnectorRepaint {	
+	aspect.Repaint.repaint r = new aspect.Repaint.repaint(void paintCanvas.PaintCanvas.paintIDMS(java.awt.Graphics,int,shapesPackage.Shape,utilsClass.Operation));
+	r.default();
+}

@@ -1,0 +1,3 @@
+
+C:\Users\Oscar\Desktop\weaveJ\Benchmarks\Micro Benchmark\Java + Invokedynamic>..\..\..\"Memory utils"\MemoryMeasurer.exe memoryID7.bat 
+4349952

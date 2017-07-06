@@ -1,0 +1,11 @@
+
+static connector ConnectorLogger {	
+	aspect.AspectLogger.OpenLogger o = new aspect.AspectLogger.OpenLogger(void main.MainWindow.actLog());
+	o.default();
+	
+	aspect.AspectLogger.CloseLogger c = new aspect.AspectLogger.CloseLogger(void main.MainWindow.disactivateLog());
+	c.default();
+	
+	aspect.AspectLogger.writeLogger l = new aspect.AspectLogger.writeLogger({void shapesPackage.Shapes.insert(shapesPackage.Shape,String),void shapesPackage.Shapes.delete(shapesPackage.Shape,String),void shapesPackage.Shape.moveShape(shapesPackage.Shape,String,shapesPackage.PointA),void shapesPackage.Shape.scaleShape(shapesPackage.Shape,String,java.util.Map) });
+	l.default();	
+} 

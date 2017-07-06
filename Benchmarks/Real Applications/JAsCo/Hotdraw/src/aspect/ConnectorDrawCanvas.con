@@ -1,0 +1,14 @@
+static connector ConnectorDrawCanvas {	
+	aspect.DrawCanvas.InsertCanvas i = new aspect.DrawCanvas.InsertCanvas(void shapesPackage.Shapes.insert(shapesPackage.Shape,String));
+	i.default();
+
+
+	aspect.DrawCanvas.DeleteCanvas d = new aspect.DrawCanvas.DeleteCanvas(void shapesPackage.Shapes.delete(shapesPackage.Shape,String));
+	d.default();
+	
+	aspect.DrawCanvas.MoveCanvas m = new aspect.DrawCanvas.MoveCanvas(void shapesPackage.Shape.moveShape(shapesPackage.Shape,String,shapesPackage.PointA));
+	m.default();  
+	
+	aspect.DrawCanvas.ScaleCanvas s = new aspect.DrawCanvas.ScaleCanvas(void shapesPackage.Shape.scaleShape(shapesPackage.Shape,String,java.util.Map));
+	s.default();  
+}

@@ -1,0 +1,1 @@
+..\..\..\..\"Memory utils"\MemoryMeasurer.exe memoryJava.bat

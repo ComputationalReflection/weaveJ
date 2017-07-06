@@ -1,0 +1,3 @@
+
+C:\Users\Oscar\Desktop\weaveJ\Benchmarks\Micro Benchmark\JAsCo\MicroBenchmarkJAsCo\Generated>..\..\..\..\..\"Memory utils"\MemoryMeasurer.exe memory.bat 
+4784128

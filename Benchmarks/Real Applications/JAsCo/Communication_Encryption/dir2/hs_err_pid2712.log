@@ -1,0 +1,146 @@
+#
+# An unexpected error has been detected by HotSpot Virtual Machine:
+#
+#  EXCEPTION_ACCESS_VIOLATION (0xc0000005) at pc=0x6d6bc73d, pid=2712, tid=3996
+#
+# Java VM: Java HotSpot(TM) Client VM (1.5.0_22-b03 mixed mode)
+# Problematic frame:
+# V  [jvm.dll+0x7c73d]
+#
+
+---------------  T H R E A D  ---------------
+
+Current thread (0x008593d0):  JavaThread "main" [_thread_in_vm, id=3996]
+
+siginfo: ExceptionCode=0xc0000005, reading address 0xdb840f2c
+
+Registers:
+EAX=0xdb840f00, EBX=0x008593d0, ECX=0x000000e8, EDX=0x0001be00
+ESP=0x000df9ac, EBP=0x000dfa00, ESI=0x0828f088, EDI=0x00000000
+EIP=0x6d6bc73d, EFLAGS=0x00010286
+
+Top of Stack: (sp=0x000df9ac)
+0x000df9ac:   000000e8 6d6c2ffd 08378a28 000000e8
+0x000df9bc:   008593d0 08378958 000000a7 000df9f0
+0x000df9cc:   000dfa14 01f8c1fe 000dfa30 000dfa14
+0x000df9dc:   01f8c1fe 000dfa30 000dfa14 01f8c1fe
+0x000df9ec:   000dfa30 000dfa04 00000000 04025b18
+0x000df9fc:   008593d0 000dfa30 01f8c227 00859970
+0x000dfa0c:   0837897f 01f8c1fe 000dfa14 08378958
+0x000dfa1c:   000dfa4c 0837bf08 00000000 08378a28 
+
+Instructions: (pc=0x6d6bc73d)
+0x6d6bc72d:   05 00 8b 86 f8 00 00 00 85 c0 74 1e 8b 4c 24 0c
+0x6d6bc73d:   8b 50 2c 3b 54 24 08 75 0a 83 f9 ff 74 1f 39 48 
+
+
+Stack: [0x000a0000,0x000e0000),  sp=0x000df9ac,  free space=254k
+Native frames: (J=compiled Java code, j=interpreted, Vv=VM code, C=native code)
+V  [jvm.dll+0x7c73d]
+j  encryption.chat.Program.runConversation2(I)V+232
+j  encryption.chat.Program.main([Ljava/lang/String;)V+313
+v  ~StubRoutines::call_stub
+V  [jvm.dll+0x876b1]
+V  [jvm.dll+0xe0018]
+V  [jvm.dll+0x87582]
+V  [jvm.dll+0x8e7c5]
+C  [java.exe+0x14c5]
+C  [java.exe+0x69fd]
+C  [KERNEL32.DLL+0x162c4]
+C  [ntdll.dll+0x60fd9]
+C  [ntdll.dll+0x60fa4]
+
+Java frames: (J=compiled Java code, j=interpreted, Vv=VM code)
+j  encryption.chat.Program.runConversation2(I)V+232
+j  encryption.chat.Program.main([Ljava/lang/String;)V+313
+v  ~StubRoutines::call_stub
+
+---------------  P R O C E S S  ---------------
+
+Java Threads: ( => current thread )
+  0x0082f810 JavaThread "Low Memory Detector" daemon [_thread_blocked, id=3132]
+  0x0082fc50 JavaThread "CompilerThread0" daemon [_thread_blocked, id=536]
+  0x00818b78 JavaThread "Signal Dispatcher" daemon [_thread_blocked, id=448]
+  0x00812fa0 JavaThread "Thread-1" daemon [_thread_blocked, id=1784]
+  0x007ffab8 JavaThread "Finalizer" daemon [_thread_blocked, id=1672]
+  0x007ff130 JavaThread "Reference Handler" daemon [_thread_blocked, id=2256]
+=>0x008593d0 JavaThread "main" [_thread_in_vm, id=3996]
+
+Other Threads:
+  0x007fad28 VMThread [id=2600]
+  0x007c4270 WatcherThread [id=3688]
+
+VM state:not at safepoint (normal execution)
+
+VM Mutex/Monitor currently owned by a thread:  ([mutex/lock_event])
+[0x00858b70/0x00000188] OsrList_lock - owner thread: 0x008593d0
+
+Heap
+ def new generation   total 576K, used 185K [0x04000000, 0x040a0000, 0x044e0000)
+  eden space 512K,  31% used [0x04000000, 0x04027fe8, 0x04080000)
+  from space 64K,  40% used [0x04080000, 0x04086700, 0x04090000)
+  to   space 64K,   0% used [0x04090000, 0x04090000, 0x040a0000)
+ tenured generation   total 1956K, used 1635K [0x044e0000, 0x046c9000, 0x08000000)
+   the space 1956K,  83% used [0x044e0000, 0x04678cb0, 0x04678e00, 0x046c9000)
+ compacting perm gen  total 8192K, used 3572K [0x08000000, 0x08800000, 0x0c000000)
+   the space 8192K,  43% used [0x08000000, 0x0837d160, 0x0837d200, 0x08800000)
+No shared spaces configured.
+
+Dynamic libraries:
+0x00400000 - 0x0040d000 	C:\Program Files (x86)\Java\jre1.5.0_22\bin\java.exe
+0x77a70000 - 0x77bf3000 	C:\WINDOWS\SYSTEM32\ntdll.dll
+0x77160000 - 0x77240000 	C:\WINDOWS\System32\KERNEL32.DLL
+0x748a0000 - 0x74a41000 	C:\WINDOWS\System32\KERNELBASE.dll
+0x74480000 - 0x74512000 	C:\WINDOWS\system32\apphelp.dll
+0x76ef0000 - 0x76f67000 	C:\WINDOWS\System32\ADVAPI32.dll
+0x77920000 - 0x779de000 	C:\WINDOWS\System32\msvcrt.dll
+0x752e0000 - 0x75321000 	C:\WINDOWS\System32\sechost.dll
+0x74550000 - 0x74611000 	C:\WINDOWS\System32\RPCRT4.dll
+0x74530000 - 0x7454e000 	C:\WINDOWS\System32\SspiCli.dll
+0x74520000 - 0x7452a000 	C:\WINDOWS\System32\CRYPTBASE.dll
+0x76f70000 - 0x76fca000 	C:\WINDOWS\System32\bcryptPrimitives.dll
+0x6d640000 - 0x6d7de000 	C:\Program Files (x86)\Java\jre1.5.0_22\bin\client\jvm.dll
+0x75330000 - 0x7548f000 	C:\WINDOWS\System32\USER32.dll
+0x75760000 - 0x75775000 	C:\WINDOWS\System32\win32u.dll
+0x74b90000 - 0x74bbb000 	C:\WINDOWS\System32\GDI32.dll
+0x76d90000 - 0x76eeb000 	C:\WINDOWS\System32\gdi32full.dll
+0x74450000 - 0x74474000 	C:\WINDOWS\SYSTEM32\WINMM.dll
+0x00510000 - 0x00533000 	C:\WINDOWS\SYSTEM32\WINMMBASE.dll
+0x76ce0000 - 0x76d16000 	C:\WINDOWS\System32\cfgmgr32.dll
+0x76c50000 - 0x76c75000 	C:\WINDOWS\System32\IMM32.DLL
+0x6d290000 - 0x6d298000 	C:\Program Files (x86)\Java\jre1.5.0_22\bin\hpi.dll
+0x76d20000 - 0x76d26000 	C:\WINDOWS\System32\PSAPI.DLL
+0x6d2c0000 - 0x6d2ce000 	C:\Program Files (x86)\Java\jre1.5.0_22\bin\instrument.dll
+0x6d610000 - 0x6d61c000 	C:\Program Files (x86)\Java\jre1.5.0_22\bin\verify.dll
+0x6d310000 - 0x6d32d000 	C:\Program Files (x86)\Java\jre1.5.0_22\bin\java.dll
+0x6d630000 - 0x6d63f000 	C:\Program Files (x86)\Java\jre1.5.0_22\bin\zip.dll
+0x6d4d0000 - 0x6d4e3000 	C:\Program Files (x86)\Java\jre1.5.0_22\bin\net.dll
+0x74770000 - 0x747d3000 	C:\WINDOWS\System32\WS2_32.dll
+0x743d0000 - 0x7441e000 	C:\WINDOWS\system32\mswsock.dll
+
+VM Arguments:
+jvm_args: -Djasco.output=silent -javaagent:C:\JAsCo0.8.7\jasco.jar
+java_command: encryption.chat.Program X127.0.0.1 4500
+Launcher Type: SUN_STANDARD
+
+Environment Variables:
+PATH=C:\Users\Oscar\Anaconda2\Library\bin;C:\Users\Oscar\Anaconda2\Library\bin;C:\ProgramData\Oracle\Java\javapath;C:\Program Files\Java\jdk1.8.0_111\bin;C:\Python27\;C:\Python27\Scripts;C:\Program Files\Dell\DW WLAN Card;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Program Files (x86)\Intel\iCLS Client\;C:\Program Files\Intel\iCLS Client\;C:\WINDOWS\system32;C:\WINDOWS;C:\WINDOWS\System32\Wbem;C:\WINDOWS\System32\WindowsPowerShell\v1.0\;C:\Program Files\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\DAL;C:\Program Files\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files (x86)\Intel\Intel(R) Management Engine Components\IPT;C:\Program Files\WIDCOMM\Bluetooth Software\;C:\Program Files\WIDCOMM\Bluetooth Software\syswow64;C:\Program Files\Git\cmd;C:\Users\Damia\Desktop\CR_project\;C:\Program Files\Microsoft SQL Server\130\Tools\Binn\;C:\Program Files\Git LFS;C:\JAsCo0.8.7\bin;C:\Users\Oscar\Anaconda2;C:\Users\Oscar\Anaconda2\Scripts;C:\Users\Oscar\Anaconda2\Library\bin;C:\Users\Oscar\AppData\Local\Microsoft\WindowsApps;
+USERNAME=Oscar
+OS=Windows_NT
+PROCESSOR_IDENTIFIER=Intel64 Family 6 Model 60 Stepping 3, GenuineIntel
+
+
+
+---------------  S Y S T E M  ---------------
+
+OS: Windows NT 6.2 Build 9200 
+
+CPU:total 8 (cores per cpu 8, threads per core 2) family 6 model 12 stepping 3, cmov, cx8, fxsr, mmx, sse, sse2, ht
+
+Memory: 4k page, physical 2097151k(2097151k free), swap 4194303k(4194303k free)
+
+vm_info: Java HotSpot(TM) Client VM (1.5.0_22-b03) for windows-x86, built on Oct  9 2009 01:15:45 by "java_re" with MS VC++ 6.0
+
+time: Fri Mar 31 12:20:00 2017
+elapsed time: 303 seconds
+

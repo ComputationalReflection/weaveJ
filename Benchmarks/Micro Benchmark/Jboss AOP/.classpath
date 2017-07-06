@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/jboss-aop-aspects.jar"/>
+	<classpathentry kind="lib" path="lib/jboss-aop-client.jar"/>
+	<classpathentry kind="lib" path="lib/jboss-aop-single.jar"/>
+	<classpathentry kind="lib" path="lib/jboss-aop.jar"/>
+	<classpathentry kind="lib" path="lib/jboss-common-core.jar"/>
+	<classpathentry kind="output" path="bin"/>
+</classpath>
