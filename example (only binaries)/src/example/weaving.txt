@@ -1,0 +1,3 @@
+AROUND - example.aspect.ProfilerAspect profileOperation example.component.CreditCard withdraw double double
+BEFORE - example.aspect.TraceAspect traceBefore example.component.CreditCard deposit double double
+AFTER - example.aspect.TraceAspect traceAfter example.component.CreditCard deposit double double
