@@ -15,4 +15,5 @@ For using weaveJ in java:
 
 
 weaveJ works on top of Java 8, 
-it also works  with Java 7, but the constructor joinpoint is not supported
+it also works  with Java 7, but the constructor joinpoint is not supported.
+The Set Field joinpoint is only supported for non-final fields.
