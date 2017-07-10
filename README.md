@@ -22,6 +22,6 @@ Directories:
    * Micro Benchmark
    * Real Applications
  * binaries: Binaries and scripts to use weaveJ and run the example.
- * documentation: Webpage containing the documentation of weaveJ (javadoc).
+ * documentation: Files containing the documentation of weaveJ (javadoc).
  * example: Binaries, scripts and code of the example.
  * source-code: Code and binaries of weaveJ.
