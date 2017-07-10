@@ -3,7 +3,7 @@ weaveJ
 
 
 
-For using weaveJ in Java:
+To use weaveJ in Java:
 
 1. Download `java-agent.jar` from `source-code\lib` folder, and add it to your system's classpath.
 
