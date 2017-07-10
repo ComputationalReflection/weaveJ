@@ -5,7 +5,7 @@ weaveJ
 
 To use weaveJ in Java:
 
-1. Download `java-agent.jar` from `source-code\lib` folder, and add it to your system's classpath.
+1. Download `java-agent.jar` from `source-code\lib` folder, and add it to your system classpath.
 
 2. Employ the API in your code to use pointcuts, see [documentation](http://htmlpreview.github.com/?https://github.com/ComputationalReflection/weaveJ/blob/master/documentation/index.html).
 
