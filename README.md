@@ -7,7 +7,7 @@ For using weaveJ in Java:
 
 1. Download `java-agent.jar` from `source-code\lib` folder, and add it to your system's classpath.
 
-2. Employ the API in your code to use pointcuts, see [documentation](documentation).
+2. Employ the API in your code to use pointcuts, see [documentation](http://htmlpreview.github.com/?https://github.com/ComputationalReflection/weaveJ/blob/master/documentation/index.html).
 
 3. Specify the following arguments to the VM :
   * The java agent: `-javaagent:[path_to_the_jar]/java-agent.jar`.
