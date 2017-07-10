@@ -1,1 +1,0 @@
-..\..\..\..\"Memory utils"\MemoryMeasurer.exe memory8.bat

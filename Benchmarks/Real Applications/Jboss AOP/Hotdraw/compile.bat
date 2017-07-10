@@ -1,2 +1,0 @@
-"C:/Program Files/Java/jdk1.7.0_80/bin/javac.exe" -d bin -sourcepath src -cp lib\* src\main\MainWindow.java
-"C:/Program Files/Java/jdk1.7.0_80/bin/javac.exe" -d bin -sourcepath src -cp lib\* src\aspect\*.java

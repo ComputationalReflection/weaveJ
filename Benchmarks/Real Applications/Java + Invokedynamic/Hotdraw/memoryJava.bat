@@ -1,1 +1,0 @@
-java -cp bin;lib\log4j-1.2.17.jar;lib\jacob.jar main.MainWindow MEM
