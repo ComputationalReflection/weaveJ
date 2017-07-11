@@ -22,6 +22,28 @@ import es.uniovi.reflection.weaver.methods.Getter;
 import es.uniovi.reflection.weaver.methods.Method;
 import es.uniovi.reflection.weaver.methods.Setter;
 
+/**
+ * Static class to declare pointcuts in your code. These methods return a
+ * Pointcut object. This object can be used to unweave the pointcut. Depending
+ * on the joinpoint in your code where you want to declare the pointcut, you must call the
+ * method weaveAspectFor {Method, Constructor, FieldAccessSet, FieldAccessGet}.
+ * You must also specify the adviceType of the new pointcut, calling
+ * weaveAspectForXXXX {Before, After, Around}.
+ * 
+ * The weaver also supports an extra advice type: the after-throwing (a specific subtype of the after advice-type).
+ * This advice-type is only supported for method and constructors joinpoints.
+ * 
+ * Finally you can choose to create a class-level or an instance level pointcut.
+ * Instance level pointcuts are only allowed for non-constructor joinpoints. The
+ * reason behind this is that an array of objects have to be passed as
+ * additional argument to the method call when you want instance level aspects.
+ * 
+ * You can also choose between stateful aspects or static ones. To create a
+ * pointcut with a stateful aspect, an object encapsulating the aspect has to be
+ * passed instead of a String with the entire aspect class name.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ */
 public class Weaver {
 
 	private static Map<Method, CallSite> callSiteMap = new HashMap<Method, CallSite>();
@@ -325,12 +347,13 @@ public class Weaver {
 		return weave(new Method(aspectMethod, true, Class.forName(aspectClass),
 				RType.equals(void.class) ? MethodType.methodType(void.class, componentKlass) :
 
-		MethodType.methodType(void.class, componentKlass, RType)), methodComp, new DynamicGeneratorAfter());
+						MethodType.methodType(void.class, componentKlass, RType)),
+				methodComp, new DynamicGeneratorAfter());
 	}
 
 	public static PointcutForObjects weaveAspectForMethodAfter(String componentClass, String componentMethod,
 			String aspectClass, String aspectMethod, Object[] objs, Class<?> RType, Class<?>... PTypes)
-					throws Throwable {
+			throws Throwable {
 		Class<?> componentKlass = Class.forName(componentClass);
 		Method methodComp = new Method(componentMethod, false, componentKlass, MethodType.methodType(RType, PTypes));
 		return weaveForObject(
@@ -362,7 +385,7 @@ public class Weaver {
 
 	public static PointcutForObjects weaveAspectForMethodAround(String componentClass, String componentMethod,
 			String aspectClass, String aspectMethod, Object[] objs, Class<?> RType, Class<?>... PTypes)
-					throws Throwable {
+			throws Throwable {
 
 		Method component = new Method(componentMethod, false, Class.forName(componentClass),
 				MethodType.methodType(RType, PTypes));
@@ -395,7 +418,7 @@ public class Weaver {
 
 	public static PointcutForObjects weaveAspectForMethodBefore(String componentClass, String componentMethod,
 			String aspectClass, String aspectMethod, Object[] objs, Class<?> RType, Class<?>... PTypes)
-					throws Throwable {
+			throws Throwable {
 		Class<?> claseComponente = Class.forName(componentClass);
 		MethodType componentMethodType = MethodType.methodType(RType, PTypes);
 		Method compMethod = new Method(componentMethod, false, claseComponente, componentMethodType);
@@ -423,7 +446,7 @@ public class Weaver {
 
 	public static PointcutForObjects weaveExceptionHandlerForConstructor(String componentClass, String aspectClass,
 			String aspectMethod, Object[] objs, String exceptionClass, Class<?>... PTypes)
-					throws ClassNotFoundException, Throwable {
+			throws ClassNotFoundException, Throwable {
 		Class<?> klass = Class.forName(componentClass);
 		Class<?> exceptionType = Class.forName(exceptionClass);
 		Class<?>[] aspectParams = new Class<?>[PTypes.length + 1];
@@ -457,7 +480,7 @@ public class Weaver {
 
 	public static Pointcut weaveExceptionHandlerForMethod(String componentClass, String componentMethod, Object aspect,
 			String aspectMethod, String exceptionClass, Class<?> RType, Class<?>... PTypes)
-					throws ClassNotFoundException, Throwable {
+			throws ClassNotFoundException, Throwable {
 		Class<?>[] aspectParams = new Class<?>[PTypes.length + 2];
 		aspectParams[0] = Class.forName(exceptionClass);
 		aspectParams[1] = Class.forName(componentClass);
@@ -472,7 +495,7 @@ public class Weaver {
 
 	public static Pointcut weaveExceptionHandlerForMethod(String componentClass, String componentMethod,
 			String aspectClass, String aspectMethod, String exceptionClass, Class<?> RType, Class<?>... PTypes)
-					throws ClassNotFoundException, Throwable {
+			throws ClassNotFoundException, Throwable {
 		Class<?>[] aspectParams = new Class<?>[PTypes.length + 2];
 		aspectParams[0] = Class.forName(exceptionClass);
 		aspectParams[1] = Class.forName(componentClass);
