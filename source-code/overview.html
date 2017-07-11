@@ -1,0 +1,32 @@
+
+<!-- NewPage -->
+<html lang="es">
+<body>
+Programmatic aspect weaver for Java.
+<br><br>
+To use weaveJ in Java:
+<ol>
+<li>
+Download java-agent.jar from source-code\lib folder, and add it to your system classpath.
+</li>
+<li>
+Employ the API in your code to declare and use pointcuts, using the static class es.uniovi.reflection.weaver.Weaver.
+</li>
+<li>
+Specify the following arguments to the VM :
+<ul>
+<li>
+The java agent: <br>-javaagent:[path_to_the_jar]/java-agent.jar.
+</li><li>
+The classes or packages to be instrumented:<br> -Dformatting=[packages_or_classes_you_want_instrument] (';' as separator)
+</li>
+</ul>
+</li>
+</ol>
+Notice: weaveJ works with Java 8. The setField joinpoint is only supported for non-final fields.
+<br>
+@author Oscar Rodriguez-Prieto
+Date: 2017/07/11
+@version 1.1.0
+</body>
+</html>

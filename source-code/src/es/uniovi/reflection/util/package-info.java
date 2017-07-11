@@ -1,5 +1,5 @@
 /**
-Provides internal util classes used by the code generation package.
+Internal util classes used by the code generation package.
 
 */
 

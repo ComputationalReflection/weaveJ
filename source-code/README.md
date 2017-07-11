@@ -1,5 +1,5 @@
 weaveJ
-:	Programatic aspect weaver for Java (API) .
+:	Programmatic aspect weaver for Java (API) .
 
 
 

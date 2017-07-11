@@ -1,5 +1,5 @@
 /**
-Provides example aspect classes to use in the unit tests.
+Example aspect classes to use in the unit tests.
 
 */
 
