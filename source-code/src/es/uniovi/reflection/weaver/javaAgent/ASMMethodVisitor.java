@@ -9,6 +9,19 @@ import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.commons.InstructionAdapter;
 
+/**
+ * 
+ * Subclass of org.objectweb.asm.commons.InstructorAdapter to transform class
+ * methods in load time. Opcodes like invokevirtual, invokespecial, putfield,
+ * getfield are substituted by the invoke-dynamic instruction. After these
+ * transformations, other opcode replacements must be performed to prevent
+ * errors in the bytecode.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ */
 public class ASMMethodVisitor extends InstructionAdapter implements Opcodes {
 
 	static boolean DEBUG = false;
@@ -67,8 +80,8 @@ public class ASMMethodVisitor extends InstructionAdapter implements Opcodes {
 
 		} else {
 			if (DEBUG)
-				System.out.println("INVOKESPECIAL allowed (super init call, or private method):("
-						+ owner + "):" + name);
+				System.out
+						.println("INVOKESPECIAL allowed (super init call, or private method):(" + owner + "):" + name);
 
 			super.invokespecial(owner, name, desc, itf);
 		}
@@ -125,8 +138,7 @@ public class ASMMethodVisitor extends InstructionAdapter implements Opcodes {
 			System.out.println("Transforming GET :" + name + " of class " + owner + "(" + desc + ")");
 		MethodType mt = MethodType.methodType(CallSite.class, MethodHandles.Lookup.class, String.class,
 				MethodType.class);
-		Handle h = new Handle(H_INVOKESTATIC, bootstrapClassDesc, "get",
-				mt.toMethodDescriptorString());
+		Handle h = new Handle(H_INVOKESTATIC, bootstrapClassDesc, "get", mt.toMethodDescriptorString());
 		super.visitInvokeDynamicInsn(name, "(L" + owner + ";)" + desc, h);
 
 	}
@@ -150,8 +162,7 @@ public class ASMMethodVisitor extends InstructionAdapter implements Opcodes {
 			System.out.println("Modificando SET al campo :" + name + " de la clase " + owner + "(" + desc + ")");
 		MethodType mt = MethodType.methodType(CallSite.class, MethodHandles.Lookup.class, String.class,
 				MethodType.class);
-		Handle h = new Handle(H_INVOKESTATIC, bootstrapClassDesc, "set",
-				mt.toMethodDescriptorString());
+		Handle h = new Handle(H_INVOKESTATIC, bootstrapClassDesc, "set", mt.toMethodDescriptorString());
 		super.visitInvokeDynamicInsn(name, "(L" + owner + ";" + desc + ")V", h);
 
 	}

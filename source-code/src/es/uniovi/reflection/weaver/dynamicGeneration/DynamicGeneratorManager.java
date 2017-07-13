@@ -14,6 +14,17 @@ import es.uniovi.reflection.weaver.dynamicGeneration.OpcodesUtil;
 import es.uniovi.reflection.weaver.dynamicGeneration.Wrapper;
 import es.uniovi.reflection.weaver.methods.Method;
 
+/**
+ * Class to handle the dynamic class generation process. All the different types
+ * of wrappers are managed, invoking the right methods when needed. The result
+ * is the dynamic generation and load of classes that will contain specific
+ * woven methods, implementing the specifications in the declared pointcuts.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ */
 public class DynamicGeneratorManager {
 	protected static BaseDynamicGenerator baseGen = new BaseDynamicGenerator();
 	public static int generatedClassIndex = 0;
@@ -64,7 +75,8 @@ public class DynamicGeneratorManager {
 	}
 
 	static void visitComponentMethod(MethodVisitor methodVisitor, MethodType generatedMethodType) {
-		methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, currentClassName, "mh", DynamicGeneratorForSingleObjectsGeneric.handleDesc);
+		methodVisitor.visitFieldInsn(Opcodes.GETSTATIC, currentClassName, "mh",
+				DynamicGeneratorForSingleObjectsGeneric.handleDesc);
 		loadLocals(methodVisitor, generatedMethodType);
 		methodVisitor.visitMethodInsn(Opcodes.INVOKEVIRTUAL, "java/lang/invoke/MethodHandle", "invokeExact",
 				generatedMethodType.toMethodDescriptorString(), false);

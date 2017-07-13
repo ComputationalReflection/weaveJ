@@ -4,6 +4,21 @@ import java.lang.invoke.MethodHandle;
 
 import es.uniovi.reflection.weaver.methods.Method;
 
+/**
+ * Concrete class for the {@link es.uniovi.reflection.weaver.Pointcut Pointcut }
+ * interface implementation. This implementation is used when instance-level
+ * weaving is not required. This implementation stores information about the
+ * next pointcut defined in the same joinpoint. This implementation also stores
+ * a java.lang.invoke.MethodHandle reference to the component method that can be
+ * modified at any time.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ *
+ */
+
 public class PointcutImpl implements Pointcut {
 
 	private MethodHandle component;
@@ -39,8 +54,7 @@ public class PointcutImpl implements Pointcut {
 		if (nextInitiator == null)
 			Weaver.changeCallSite(method, component);
 
-		else
-		{
+		else {
 			nextInitiator.invoke(component);
 			nextPointcut.setComponentHandle(component);
 		}

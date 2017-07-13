@@ -4,7 +4,17 @@ import java.lang.invoke.MethodHandle;
 
 import es.uniovi.reflection.test.component.RationalNumber;
 
- public class RationalMultipliedBy {
+/**
+ * Stateful aspect to weave Around pointcuts along with
+ * {@link es.uniovi.reflection.test.component.RationalNumber RationalNumber}
+ * methods.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ */
+public class RationalMultipliedBy {
 
 	private RationalNumber factor;
 
@@ -12,10 +22,7 @@ import es.uniovi.reflection.test.component.RationalNumber;
 		this.factor = factor;
 	}
 
-	public int getMultiplied(String fieldName, MethodHandle getter,
-			RationalNumber r) throws Throwable {
-		return (int) getter.invoke(r)
-				* (fieldName.contentEquals("numerator") ? factor.numerator
-						: factor.denominator);
+	public int getMultiplied(String fieldName, MethodHandle getter, RationalNumber r) throws Throwable {
+		return (int) getter.invoke(r) * (fieldName.contentEquals("numerator") ? factor.numerator : factor.denominator);
 	}
 }

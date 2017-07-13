@@ -5,6 +5,21 @@ import org.objectweb.asm.ClassWriter;
 
 import jdk.internal.org.objectweb.asm.Opcodes;
 
+/**
+ * Subclass of
+ * {@link es.uniovi.reflection.weaver.javaAgent.InstrumentorTransformer
+ * InstrumentorTransformer} to implement the concrete class selection strategy
+ * for the instrumentation at load time. This class is instantiated with a
+ * String array, containing different (class or package) names that were
+ * introduced by the user. Only classes whose complete name matches any of these
+ * strings will be selection for the instrumentation.
+ * 
+ * 
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ */
 public class PackageGroupTransformer extends InstrumentorTransformer {
 	public static PackageGroupTransformer CLASS_TRANSFORMER;
 	private String[] packageNames;

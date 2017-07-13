@@ -13,6 +13,21 @@ import es.uniovi.reflection.weaver.dynamicGeneration.OpcodesUtil;
 import es.uniovi.reflection.weaver.dynamicGeneration.Wrapper;
 import es.uniovi.reflection.weaver.methods.Method;
 
+/**
+ * {@link es.uniovi.reflection.weaver.dynamicGeneration.Wrapper Wrapper }
+ * implementation to dynamically generate woven methods when the aspect method
+ * receives member name information as argument. The functionality of this class
+ * is partially implemented delegating to other
+ * {@link es.uniovi.reflection.weaver.dynamicGeneration.Wrapper Wrapper }. This
+ * {@link es.uniovi.reflection.weaver.dynamicGeneration.Wrapper Wrapper } can be
+ * any of the ones used to generate other woven methods.
+ * 
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ */
 public class DynamicNameFieldGenerator extends DefaultComponentGenerator {
 
 	private String nameField;
@@ -31,8 +46,8 @@ public class DynamicNameFieldGenerator extends DefaultComponentGenerator {
 		final String GENERATED_CLASS_NAME = "DynamicAspectClass" + DynamicGeneratorManager.generatedClassIndex;
 
 		cw.visit(Opcodes.V1_7, Opcodes.ACC_PUBLIC, GENERATED_CLASS_NAME, null, "java/lang/Object", new String[] {});
-		cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "mh", DynamicGeneratorForSingleObjectsGeneric.handleDesc, null, null)
-				.visitEnd();
+		cw.visitField(Opcodes.ACC_PUBLIC + Opcodes.ACC_STATIC, "mh", DynamicGeneratorForSingleObjectsGeneric.handleDesc,
+				null, null).visitEnd();
 		MethodVisitor methodVisitor;
 		{
 			methodVisitor = cw.visitMethod(Opcodes.ACC_STATIC + Opcodes.ACC_PUBLIC, "aspect",

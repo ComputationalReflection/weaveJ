@@ -15,6 +15,16 @@ import org.objectweb.asm.ClassWriter;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.util.TraceClassVisitor;
 
+/**
+ * Abstract class to implement the starting of the class transformation process.
+ * The structure of the class selection process is also implemented here, while
+ * the concrete selection strategy must be implemented with subclasses.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ */
 
 public abstract class InstrumentorTransformer implements ClassFileTransformer {
 	private static final boolean DEBUG = false;

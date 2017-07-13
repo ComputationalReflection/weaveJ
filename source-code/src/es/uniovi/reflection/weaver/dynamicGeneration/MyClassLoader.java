@@ -2,6 +2,16 @@ package es.uniovi.reflection.weaver.dynamicGeneration;
 
 import es.uniovi.reflection.weaver.dynamicGeneration.MyClassLoader;
 
+/**
+ * Class that extends java.lang.ClassLoader to load dynamically generated or
+ * modified classes into memory.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ */
+
 public class MyClassLoader extends ClassLoader {
 	private static MyClassLoader instance = null;
 

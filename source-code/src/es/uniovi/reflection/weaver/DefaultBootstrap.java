@@ -11,6 +11,23 @@ import es.uniovi.reflection.weaver.methods.Setter;
 import java.lang.invoke.MethodType;
 import java.lang.invoke.VolatileCallSite;
 
+/**
+ * 
+ * Bootstrap class used to handle the invoke-dynamic calls. All the
+ * invoke-dynamic instructions introduced during the load time formatting refer
+ * this class. Before the execution of the method referred by the invoke-dynamic
+ * instruction, the call is intercepted here in one of these methods. This
+ * method is chosen depending on the arguments passed to the invoke-dynamic
+ * instruction. Then a java.lang.invoke.Callsite object encapsulating the method
+ * call is returned and the invocation is performed.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ *
+ */
+
 public class DefaultBootstrap {
 	private static CallSite addCallSite(Method method)
 			throws NoSuchMethodException, IllegalAccessException, NoSuchFieldException {

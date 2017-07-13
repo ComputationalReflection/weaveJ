@@ -1,10 +1,21 @@
 package es.uniovi.reflection.test.component;
 
- public class RationalNumber {
+/**
+ * Class representing rational numbers with two fields: the numerator and the
+ * denominator. It is used as a component class in all the unit tests.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ *
+ */
+public class RationalNumber {
 
 	private static int gcd(int a, int b) {
 		return a == b ? a : a > b ? gcd(b, a) : gcd(a, b - a);
 	}
+
 	public int denominator;
 
 	public int numerator;
@@ -42,6 +53,5 @@ package es.uniovi.reflection.test.component;
 	public String toString() {
 		return numerator + "/" + denominator;
 	}
-
 
 }

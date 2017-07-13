@@ -24,14 +24,16 @@ import es.uniovi.reflection.weaver.methods.Setter;
 
 /**
  * Static class to declare pointcuts in your code. These methods return a
- * Pointcut object. This object can be used to unweave the pointcut. Depending
- * on the joinpoint in your code where you want to declare the pointcut, you must call the
- * method weaveAspectFor {Method, Constructor, FieldAccessSet, FieldAccessGet}.
- * You must also specify the adviceType of the new pointcut, calling
+ * {@link es.uniovi.reflection.weaver.Pointcut Pointcut } object. This object
+ * can be used to unweave the pointcut. Depending on the joinpoint in your code
+ * where you want to declare the pointcut, you must call the method
+ * weaveAspectFor {Method, Constructor, FieldAccessSet, FieldAccessGet}. You
+ * must also specify the adviceType of the new pointcut, calling
  * weaveAspectForXXXX {Before, After, Around}.
  * 
- * The weaver also supports an extra advice type: the after-throwing (a specific subtype of the after advice-type).
- * This advice-type is only supported for method and constructors joinpoints.
+ * The weaver also supports an extra advice type: the after-throwing (a specific
+ * subtype of the after advice-type). This advice-type is only supported for
+ * method and constructors joinpoints.
  * 
  * Finally you can choose to create a class-level or an instance level pointcut.
  * Instance level pointcuts are only allowed for non-constructor joinpoints. The
@@ -40,9 +42,11 @@ import es.uniovi.reflection.weaver.methods.Setter;
  * 
  * You can also choose between stateful aspects or static ones. To create a
  * pointcut with a stateful aspect, an object encapsulating the aspect has to be
- * passed instead of a String with the entire aspect class name.
+ * passed instead of a java.lang.String with the entire aspect class name.
  * 
  * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
  */
 public class Weaver {
 

@@ -12,6 +12,22 @@ import org.objectweb.asm.Opcodes;
 
 import es.uniovi.reflection.weaver.dynamicGeneration.OpcodesUtil;
 
+/**
+ * 
+ * Subclass of org.objectweb.asm.ClassVisitor to transform classes at load time.
+ * One public static method called "init" is added to each class per constructor
+ * declared in order to implement the constructor joinpoint. This class visitor
+ * is also used to track final fields. The reason behind this is that putfield
+ * opcodes referring to final fields cannot be replaced by invoke-dynamic
+ * instructions. Finally, this class is also used to choose the right subclass
+ * of org.objectweb.asm.InstructionAdapter to visit and modify the different
+ * method declarations.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ */
 public class ASMClassVisitor extends ClassVisitor implements Opcodes {
 
 	private static boolean DEBUG = false;

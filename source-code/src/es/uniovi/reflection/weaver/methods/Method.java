@@ -4,6 +4,18 @@ import java.lang.invoke.MethodHandle;
 import java.lang.invoke.MethodHandles;
 import java.lang.invoke.MethodType;
 
+/**
+ * Class to encapsulate all the different information related to an specific
+ * method ( constructor, getter or setter). The equals and hashCode methods are
+ * also implemented to compare and cache these objects efficiently. This class
+ * also offers functionality to retrieve the associated
+ * java.lang.invoke.MethodHandle object, using the method information.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ */
 public class Method {
 	private String name;
 	private boolean isStatic;
@@ -60,16 +72,14 @@ public class Method {
 	public void setType(MethodType type) {
 		this.type = type;
 	}
+
 	public void setStatic(boolean isStatic) {
 		this.isStatic = isStatic;
 	}
-	
 
-	public MethodHandle getMethodHandle() throws NoSuchMethodException,
-			IllegalAccessException, NoSuchFieldException {
-		return isStatic ? MethodHandles.lookup().findStatic(getKlass(),
-				getName(), getType()) : MethodHandles.lookup().findVirtual(
-				getKlass(), getName(), getType().dropParameterTypes(0, 1));
+	public MethodHandle getMethodHandle() throws NoSuchMethodException, IllegalAccessException, NoSuchFieldException {
+		return isStatic ? MethodHandles.lookup().findStatic(getKlass(), getName(), getType())
+				: MethodHandles.lookup().findVirtual(getKlass(), getName(), getType().dropParameterTypes(0, 1));
 	}
 
 	@Override

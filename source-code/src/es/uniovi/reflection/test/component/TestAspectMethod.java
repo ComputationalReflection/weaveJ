@@ -10,7 +10,16 @@ import org.junit.Test;
 import es.uniovi.reflection.weaver.Pointcut;
 import es.uniovi.reflection.weaver.Weaver;
 
- public class TestAspectMethod {
+/**
+ * Unit test to verify the correct operation of the system when the method
+ * joinpoint is chosen.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ */
+public class TestAspectMethod {
 
 	private static final String ASPECT_CLASS = "es.uniovi.reflection.test.aspects.RationalAspects";
 	private static final String RATIONAL_CLASS = "es.uniovi.reflection.test.component.RationalNumber";

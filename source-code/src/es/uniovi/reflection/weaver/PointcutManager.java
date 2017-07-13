@@ -4,6 +4,20 @@ import java.lang.invoke.MethodHandle;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Internal class to manage java.lang.invoke.MethodHandle and
+ * {@link es.uniovi.reflection.weaver.Pointcut Pointcut } objects to achieve
+ * compound (un)weaving. java.lang.invoke.MethodHandle objects referring to
+ * woven methods are binded to its pointcuts. When compound unweaving is
+ * required, the woven method (wich may be used as component method in other
+ * pointcuts), must be replaced with its component method.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ *
+ */
 public class PointcutManager {
 
 	private static Map<MethodHandle, PointcutImpl> pointcuts = new HashMap<MethodHandle, PointcutImpl>();

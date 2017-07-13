@@ -5,6 +5,15 @@ import java.util.Map;
 
 import org.objectweb.asm.Opcodes;
 
+/**
+ * Static class used by the dynamic generators to get specific information
+ * relating java.lang.Class objects with different kinds of VM opcodes.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ */
 public class OpcodesUtil {
 	private static Map<Class<?>, Integer> loadInstructionsMap = initializeMap();
 
@@ -25,12 +34,14 @@ public class OpcodesUtil {
 		return Opcodes.POP;
 	}
 
-	public static int getReturnOpcode(Class<?> c){
-		return getLoadOpcode(c)+151;
+	public static int getReturnOpcode(Class<?> c) {
+		return getLoadOpcode(c) + 151;
 	}
-public static int getStoreOpcode(Class<?> c) {
-	return getLoadOpcode(c) + 33;
-}
+
+	public static int getStoreOpcode(Class<?> c) {
+		return getLoadOpcode(c) + 33;
+	}
+
 	private static Map<Class<?>, Integer> initializeMap() {
 		loadInstructionsMap = new HashMap<Class<?>, Integer>();
 		loadInstructionsMap.put(int.class, Opcodes.ILOAD);
@@ -41,8 +52,8 @@ public static int getStoreOpcode(Class<?> c) {
 		loadInstructionsMap.put(short.class, Opcodes.ILOAD);
 		loadInstructionsMap.put(float.class, Opcodes.FLOAD);
 		loadInstructionsMap.put(long.class, Opcodes.LLOAD);
-		loadInstructionsMap.put(void.class, Opcodes.RETURN-151);
-		
+		loadInstructionsMap.put(void.class, Opcodes.RETURN - 151);
+
 		return loadInstructionsMap;
 	}
 }

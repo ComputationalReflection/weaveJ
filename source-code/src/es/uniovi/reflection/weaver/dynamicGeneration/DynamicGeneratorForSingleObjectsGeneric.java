@@ -19,10 +19,33 @@ import es.uniovi.reflection.weaver.dynamicGeneration.OpcodesUtil;
 import es.uniovi.reflection.weaver.dynamicGeneration.Wrapper;
 import es.uniovi.reflection.weaver.methods.Method;
 
+/**
+ * {@link es.uniovi.reflection.weaver.dynamicGeneration.Wrapper Wrapper }
+ * implementation to dynamically generate woven methods when instance-level
+ * weaving is required. The class {@link es.uniovi.reflection.util.GenericSet
+ * GenericSet } is used only here to store the objects which are affected by the
+ * weaving. The functionality of this class is partially implemented delegating
+ * to other {@link es.uniovi.reflection.weaver.dynamicGeneration.Wrapper Wrapper
+ * }. This {@link es.uniovi.reflection.weaver.dynamicGeneration.Wrapper Wrapper
+ * } can be any of the ones used to generate other woven methods except the
+ * constructors generators or the
+ * {@link es.uniovi.reflection.weaver.dynamicGeneration.DynamicStatefulGenerator
+ * DynamicStatefulGenerator} . The reason behind this is that instance
+ * level-weaving can't be understood for constructors, as the single objects
+ * affected must exist in the moment the pointcut is declared. Also, at this
+ * moment, is not possible to create stateful aspects that are declared at
+ * instance level.
+ * 
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ */
 public class DynamicGeneratorForSingleObjectsGeneric extends DefaultComponentGenerator implements Wrapper {
 
 	private static final String setClassDesc = "Les/uniovi/reflection/util/GenericSet;";
-	 static final String handleDesc = "Ljava/lang/invoke/MethodHandle;";
+	static final String handleDesc = "Ljava/lang/invoke/MethodHandle;";
 	private MethodHandle component;
 	private Label falseLabel;
 	private MethodType methodType;

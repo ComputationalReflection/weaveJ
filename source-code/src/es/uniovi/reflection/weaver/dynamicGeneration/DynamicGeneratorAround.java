@@ -16,6 +16,20 @@ import es.uniovi.reflection.weaver.dynamicGeneration.DynamicGeneratorManager;
 import es.uniovi.reflection.weaver.dynamicGeneration.Wrapper;
 import es.uniovi.reflection.weaver.methods.Method;
 
+/**
+ * {@link es.uniovi.reflection.weaver.dynamicGeneration.Wrapper Wrapper }
+ * implementation to dynamically generate woven methods when around advice type
+ * is required. For this purpose, the
+ * {@link es.uniovi.reflection.weaver.Decorator Decorator } is employed. Its
+ * functionality is partially implemented delegating to the
+ * {@link es.uniovi.reflection.weaver.dynamicGeneration.DynamicGeneratorManager}
+ * and also to its superclass.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ */
 public class DynamicGeneratorAround extends DefaultComponentGenerator {
 
 	private Decorator decorator;

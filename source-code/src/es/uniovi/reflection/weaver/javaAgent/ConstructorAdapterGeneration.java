@@ -7,12 +7,20 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-
+/**
+ * Static class used by the classes involved in the transformations at load lime
+ * to get information relating java.lang.Class objects with different prefixes
+ * and descriptors of VM opcodes.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ */
 public class ConstructorAdapterGeneration {
 	private static Map<Character, Class<?>> charToClass = new HashMap<Character, Class<?>>();
 
 	private static Set<String> classesWithPublicConstructors = new HashSet<String>();
-
 
 	static {
 		charToClass.put('I', int.class);
@@ -33,7 +41,6 @@ public class ConstructorAdapterGeneration {
 	public static boolean allPublicConstructors(String className) {
 		return classesWithPublicConstructors.contains(className);
 	}
-
 
 	static List<Class<?>> getClassParamsFromDescriptor(String desc) {
 		String[] classParams = desc.split(";");

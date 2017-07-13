@@ -3,6 +3,20 @@ package es.uniovi.reflection.weaver.javaAgent;
 import java.lang.instrument.Instrumentation;
 import es.uniovi.reflection.weaver.java7.PackageGroupTransformerJava7;
 
+/**
+ * Static class containing the premain method of the java agent. This method
+ * will be executed right before the main method of the instrumented program. In
+ * this method, the java version is checked and an appropriate subclass of
+ * {@link es.uniovi.reflection.weaver.javaAgent.InstrumentorTransformer
+ * InstrumentorTransformer } is added to the instrumentation. System properties
+ * are also checked looking for the "formatting" property, whose value indicate
+ * which classes have to be instrumented.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ */
 public class JavaAgentForWeaver {
 
 	public static void premain(String agentArgs, Instrumentation inst)

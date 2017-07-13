@@ -11,6 +11,20 @@ import es.uniovi.reflection.weaver.dynamicGeneration.DynamicGeneratorManager;
 import es.uniovi.reflection.weaver.dynamicGeneration.Wrapper;
 import es.uniovi.reflection.weaver.methods.Method;
 
+/**
+ * {@link es.uniovi.reflection.weaver.dynamicGeneration.Wrapper Wrapper }
+ * implementation used as basic device for dynamically generate methods that are
+ * not woven yet. It generates the code for invoking the component method and no
+ * aspect methods before, after or around it. Its functionality is implemented
+ * delegating to the
+ * {@link es.uniovi.reflection.weaver.dynamicGeneration.BaseDynamicGenerator
+ * BaseDynamicGenerator}.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ */
 public class DefaultComponentGenerator implements Wrapper {
 	protected Wrapper generator;
 
@@ -23,11 +37,10 @@ public class DefaultComponentGenerator implements Wrapper {
 	}
 
 	@Override
-	public MethodHandle prepareMethods(MethodHandle componentMethod,
-			Method aspectMethod) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, Throwable {
+	public MethodHandle prepareMethods(MethodHandle componentMethod, Method aspectMethod)
+			throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, Throwable {
 		return generator.prepareMethods(componentMethod, aspectMethod);
 	}
-
 
 	@Override
 	public void visitMethodHandleSetter(ClassWriter cw) {
@@ -35,23 +48,20 @@ public class DefaultComponentGenerator implements Wrapper {
 	}
 
 	@Override
-	public void invokeMethodsBefore(MethodVisitor methodVisitor,
-			Method aspectMethod) throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, Throwable {
+	public void invokeMethodsBefore(MethodVisitor methodVisitor, Method aspectMethod)
+			throws NoSuchFieldException, IllegalAccessException, NoSuchMethodException, Throwable {
 		generator.invokeMethodsBefore(methodVisitor, aspectMethod);
 	}
 
 	@Override
-	public void invokeMethodsAfter(MethodVisitor methodVisitor,
-			Method aspectMethod) {
+	public void invokeMethodsAfter(MethodVisitor methodVisitor, Method aspectMethod) {
 		generator.invokeMethodsAfter(methodVisitor, aspectMethod);
 	}
 
-
 	@Override
-	public MethodHandle initAndGetWovenMethod(Class<?> dynamicClass,
-			MethodType generatedMethodType, PointcutImpl pointcut) throws Throwable {
+	public MethodHandle initAndGetWovenMethod(Class<?> dynamicClass, MethodType generatedMethodType,
+			PointcutImpl pointcut) throws Throwable {
 		return generator.initAndGetWovenMethod(dynamicClass, generatedMethodType, pointcut);
 	}
-	
 
 }

@@ -8,6 +8,18 @@ import org.objectweb.asm.FieldVisitor;
 import org.objectweb.asm.MethodVisitor;
 import org.objectweb.asm.Opcodes;
 
+/**
+ * 
+ * Subclass of org.objectweb.asm.ClassVisitor to transform classes at load time
+ * when Java 7 is used. As with Java 7 the constructor joinpoint is not
+ * supported, these class visitor does not generate additional "init" static
+ * methods.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ */
 public class ASMClassVisitorJava7 extends ClassVisitor implements Opcodes {
 
 	private static boolean DEBUG = false;

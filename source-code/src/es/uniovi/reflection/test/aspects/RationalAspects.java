@@ -4,9 +4,19 @@ import java.lang.invoke.MethodHandle;
 
 import es.uniovi.reflection.test.component.RationalNumber;
 import es.uniovi.reflection.test.component.ZeroAsDenominatorException;
- 
 
- public class RationalAspects {
+/**
+ * 
+ * Static class with many aspect methods to be used in the unit tests. These
+ * methods are designed to be woven along with
+ * {@link es.uniovi.reflection.test.component.RationalNumber RationalNumber}
+ * methods as components.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ */
+public class RationalAspects {
 	public static int numberInstances = 0;
 
 	public static void addOneAfter(RationalNumber r) {

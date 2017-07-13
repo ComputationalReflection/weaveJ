@@ -4,6 +4,18 @@ import org.objectweb.asm.MethodVisitor;
 
 import es.uniovi.reflection.weaver.javaAgent.ASMMethodVisitor;
 
+/**
+ * 
+ * Subclass of {@link es.uniovi.reflection.weaver.javaAgent.ASMMethodVisitor
+ * ASMMethodVisitor} to transform class methods in load time when Java 7 is
+ * used. As with Java 7 the constructor joinpoint is not supported,
+ * invokespecial opcodes are not substituted here.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ */
 public class ASMMethodVisitorJava7 extends ASMMethodVisitor {
 
 	static boolean DEBUG = false;

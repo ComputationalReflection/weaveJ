@@ -1,6 +1,19 @@
 package es.uniovi.reflection.test.component;
 
- public class AlreadySimplifiedException extends RuntimeException {
+/**
+ * java.lang.Exception created to use in the
+ * {@link es.uniovi.reflection.test.component.TestExceptionHandler
+ * after-throwing test}. It is thrown when a simplification is required but the
+ * {@link es.uniovi.reflection.test.component.RationalNumber RationalNumber} is
+ * already completely simplified.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ *
+ */
+public class AlreadySimplifiedException extends RuntimeException {
 
 	private static final long serialVersionUID = 1L;
 

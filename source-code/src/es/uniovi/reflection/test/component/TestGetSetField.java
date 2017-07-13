@@ -11,7 +11,17 @@ import es.uniovi.reflection.weaver.Pointcut;
 import es.uniovi.reflection.weaver.PointcutForObjects;
 import es.uniovi.reflection.weaver.Weaver;
 
- public class TestGetSetField {
+/**
+ * Unit test to verify the correct operation of the system when the getField and
+ * setField joinpoints are chosen.
+ * 
+ * @author Oscar Rodriguez-Prieto Date: 2017/07/11
+ * 
+ * @version 1.1.0
+ *
+ *
+ */
+public class TestGetSetField {
 
 	private static final String ASPECT_COUNTER_CLASS = "es.uniovi.reflection.test.aspects.RationalFieldCounter";
 	private static final String ASPECT_SAFE_CLASS = "es.uniovi.reflection.test.aspects.RationalAspects";
