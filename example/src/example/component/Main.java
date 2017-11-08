@@ -1,8 +1,7 @@
 package example.component;
 
-
-import es.uniovi.reflection.weaver.Pointcut;
-import es.uniovi.reflection.weaver.Weaver;
+import es.uniovi.reflection.weavej.weaver.Pointcut;
+import es.uniovi.reflection.weavej.weaver.Weaver;
 import example.aspect.CommissionAspect;
 
 public class Main {

@@ -12,8 +12,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.Random;
 
-import es.uniovi.reflection.weaver.Pointcut;
-import es.uniovi.reflection.weaver.Weaver;
+import es.uniovi.reflection.weavej.weaver.Pointcut;
+import es.uniovi.reflection.weavej.weaver.Weaver;
+
 
 public class CardManager {
 	static int ID_COUNTER = 1;
